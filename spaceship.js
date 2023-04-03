@@ -1,14 +1,18 @@
-var trailer;
-var spaceship = {cx: 50, cy : 50}
-
 var battle;
 var contextBattle;
 
 var shoots = [];
+var rightPressed = false;
+var leftPressed = false;
+var downPressed = false;
+var upPressed = false;
 
 $(document).ready(function() {
     trailer = document.getElementById("trailer");
     battle = document.getElementById("battle");
+    document.addEventListener("keydown", keyDownHandler, false);
+    document.addEventListener("keyup", keyUpHandler, false);
+    spaceship = {x: battle.width / spaceship_height, y: battle.height - spaceship_height*3}
     // battle.width = window.innerWidth / 3;
     // battle.height = window.innerHeight;
     contextBattle = battle.getContext("2d");
@@ -16,42 +20,82 @@ $(document).ready(function() {
         fire(e);
     });
 
-    intervalTimer = setInterval(main, 1);
 })
 
-const drawSpaceship  = (cx, cy) => {
-    contextBattle.arc(cx, spaceship.cy, 10, 0, Math.PI*2);
-    contextBattle.fillStyle = "blue";
-    contextBattle.fill();
-    contextBattle.stroke()
+function keyDownHandler(e) {
+
+    if (e.key == " Right" || e.key == "ArrowRight" ){
+        rightPressed = true;
+    }else if(e.key == "Left" || e.key == "ArrowLeft"){
+        leftPressed = true;
+    }
+    if(e.key == "Up" || e.key == "ArrowUp"){
+        upPressed = true;
+    }else if(e.key == "Down" || e.key == "ArrowDown"){
+        downPressed = true;
+    }
 }
 
-window.onmousemove = e => {
-    const x = e.clientX - trailer.offsetWidth / 2, 
-          y = e.clientY - trailer.offsetHeight / 2;
-    
-    if(x > window.innerWidth / 3 - trailer.offsetWidth || x < 0 + trailer.offsetWidth/2){
-        return 
-    }
-    const keyframes = {
-            transform: `translate(${x}px)`
-        }
 
-    trailer.animate(keyframes, 
-        {
-            duration: 800,
-            fill: "forwards",
-        });
+function keyUpHandler(e) {
+    if(e.key == " "){
+        fire(e);
+    }
+    if (e.key == "Right" || e.key == "ArrowRight" ){
+        rightPressed = false;
+    }else if(e.key == "Left" || e.key == "ArrowLeft"){
+        leftPressed = false;
+    }
     
+    if(e.key == "Up" || e.key == "ArrowUp"){
+        upPressed = false;
+    }else if(e.key == "Down" || e.key == "ArrowDown"){
+        downPressed = false;
+    }
 }
 
 function fire(event){
-    const rect = battle.getBoundingClientRect();
-    const tr = trailer.getBoundingClientRect();
-    const x = tr.x + trailer.offsetWidth/ 2, y = tr.y;
+    const x = spaceship.x, y = spaceship.y;
     shoots.push({x: x, y: y});
 }
 
+function drawSpaceship(){
+    contextBattle.beginPath();
+    contextBattle.arc(spaceship.x, spaceship.y, spaceship_width, 0, Math.PI*2);
+    contextBattle.fill();
+    contextBattle.moveTo(spaceship.x, spaceship.y - 15);
+    contextBattle.lineTo(spaceship.x - 12, spaceship.y + 5);
+    contextBattle.fillStyle = "#1d3687";
+    contextBattle.fill();
+    contextBattle.lineTo(spaceship.x + 12, spaceship.y + 5);
+    contextBattle.strokeStyle = "#979797";
+    contextBattle.closePath();
+    contextBattle.moveTo(spaceship.x, spaceship - 15);
+    contextBattle.arc(spaceship.x, spaceship - 12, 30, Math.PI, Math.PI*2);
+    contextBattle.fillStyle = "orange"
+    contextBattle.fill()
+    contextBattle.stroke();
+}
+
+var spaceship_width = 10;
+var spaceship_height = 10;
+var spaceship;
+var spaceship_speed = 3;
+
+function updateSpaceshipPositions(){
+    drawSpaceship();
+    if(rightPressed && spaceship.x < battle.width - spaceship_width){
+        spaceship.x = spaceship.x + spaceship_speed;
+    }else if(leftPressed && spaceship.x > 0 + spaceship_width){
+        spaceship.x = spaceship.x - spaceship_speed;
+    }
+
+    if(upPressed && spaceship.y > (battle.height / 2) + spaceship_height){
+        spaceship.y = spaceship.y - spaceship_speed;
+    }else if(downPressed && spaceship.y < battle.height - spaceship_height){
+        spaceship.y = spaceship.y + spaceship_speed;
+    }
+}
 
 
 function updateFirePositions(){
