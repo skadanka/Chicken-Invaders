@@ -1,0 +1,51 @@
+:root{
+
+    --poistion: 200px;
+    --text-shadow: 
+    0 0 7px #fff,
+    0 0 10px #fff,
+    0 0 21px #fff,
+    0 0 42px #0fa,
+    0 0 82px #0fa,
+    0 0 92px #0fa,
+    0 0 102px #0fa,
+    0 0 151px #0fa;
+
+}
+
+#game {
+    overflow: hidden;
+    height: 96vh;
+    width: 96vw;
+    position: relative;
+    color: #fff;
+    text-shadow: var(--text-shadow);
+}
+
+#score {
+    position: absolute;
+    height: 50%;
+    width: 50%;
+    top: 8px;
+    left: 8px;
+    font-family:cursive;
+
+}
+
+#health {
+    font-size: 1.8vw;
+    position: absolute;
+    
+    object-fit: contain;
+
+    right: 2px;
+    top: 8px;   
+}
+
+#timer {
+    position: absolute;
+
+    top: 2vh;
+    left: 50vw;
+
+}
