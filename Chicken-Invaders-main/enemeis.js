@@ -81,7 +81,9 @@ function collisionDetetctionEnemy(){
                     brigade[i][j].x - enemy_spaceship_size < shoot.x && 
                     brigade[i][j].y + enemy_spaceship_size > shoot.y &&
                     brigade[i][j].y - enemy_spaceship_size < shoot.y ){
-                        brigade[i][j].health -= 1;
+                        brigade[i][j].health = brigade[i][j].health - 1;
+                        var index = shoots.indexOf(shoot);
+                        shoots.splice(index, 1);
                         if(brigade[i][j].health == 0){
                             enemeis_killed++;
                             score = score + brigade[i][j].points;

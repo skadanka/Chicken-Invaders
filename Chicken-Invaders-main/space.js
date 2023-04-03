@@ -1,6 +1,7 @@
 var space;
 var contextSpace;
 
+var status = true;
 
 var stars = [];
 var trail =[];
@@ -8,6 +9,8 @@ var stars_velocity = 2;
 var score = 0;
 var scoreTag;
 var healthTag;
+
+var gameState = false;
 
 $(document).ready(function()
 {
@@ -24,8 +27,31 @@ $(document).ready(function()
     contextSpace = space.getContext("2d");
     createStars();
     createTrail();
-    intervalTimer = setInterval(main, 1);
+
 });
+
+
+function pauseOrplay(){
+    const play = document.getElementById("play");
+
+    if(!gameState){
+        intervalTimer = setInterval(() => {
+            contextSpace.clearRect(0, 0, space.width, space.height);
+            updateStarPosition();
+            updateBrigade();
+            updateTrailPosition();
+            updateFirePositions();
+            updateEnemyFirePositions();
+            updateSpaceshipPositions();
+        }, 1);
+        play.innerHTML = "Pause";
+    }else{
+        clearInterval(intervalTimer);
+        play.innerHTML = "Play";
+    }
+    
+    gameState != gameState;
+}
 
 
 function reset(){
@@ -165,4 +191,14 @@ function main() {
     // updateFirePositions();
     // updateEnemyFirePositions();
     // updateSpaceshipPositions();
+}
+
+function main1() {
+    contextSpace.clearRect(0, 0, space.width, space.height);
+    updateStarPosition();
+    updateBrigade();
+    updateTrailPosition();
+    updateFirePositions();
+    updateEnemyFirePositions();
+    updateSpaceshipPositions();
 }
