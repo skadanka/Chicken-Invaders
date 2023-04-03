@@ -53,6 +53,7 @@ function fire(event){
 }
 
 
+
 function updateFirePositions(){
     shoots.forEach(shoot => {       
         shoot.y = shoot.y - 1;
