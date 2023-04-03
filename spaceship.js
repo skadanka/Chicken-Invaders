@@ -61,8 +61,9 @@ function updateFirePositions(){
             shoots.splice(index, 1);
         }
         contextBattle.beginPath();
+        contextBattle.arc(shoot.x, shoot.y, 2, 0, Math.PI*2);
         contextBattle.fillStyle = "yellow";
-        contextBattle.arc(shoot.x, shoot.y, 4, 0, Math.PI*2);
+        contextBattle.strokeStyle = "darkorange";
         contextBattle.fill();
         contextBattle.stroke();
     });

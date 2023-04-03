@@ -87,7 +87,7 @@ function updateStarPosition() {
 
 function main() {
     contextSpace.clearRect(0, 0, space.width, space.height);
-    updateBrigade();
     updateStarPosition();
+    updateBrigade();
     updateFirePositions();
 }
