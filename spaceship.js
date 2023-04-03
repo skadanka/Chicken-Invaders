@@ -7,12 +7,14 @@ var leftPressed = false;
 var downPressed = false;
 var upPressed = false;
 
+var healthBar = 3;
+
+
 $(document).ready(function() {
-    trailer = document.getElementById("trailer");
     battle = document.getElementById("battle");
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
-    spaceship = {x: battle.width / spaceship_height, y: battle.height - spaceship_height*3}
+    spaceship = {x: battle.width / 2, y: battle.height - spaceship_height*3}
     // battle.width = window.innerWidth / 3;
     // battle.height = window.innerHeight;
     contextBattle = battle.getContext("2d");
@@ -82,7 +84,9 @@ var spaceship_height = 10;
 var spaceship;
 var spaceship_speed = 3;
 
+
 function updateSpaceshipPositions(){
+    collisionDetetctionSpaceship();
     drawSpaceship();
     if(rightPressed && spaceship.x < battle.width - spaceship_width){
         spaceship.x = spaceship.x + spaceship_speed;
@@ -111,6 +115,21 @@ function updateFirePositions(){
         contextBattle.strokeStyle = "darkorange";
         contextBattle.fill();
         contextBattle.stroke();
+    });
+}
+
+function collisionDetetctionSpaceship(){
+    enemyShots.forEach(bullet => {
+        if(bullet.x < spaceship.x + spaceship_width 
+            && bullet.x > spaceship.x - spaceship_width
+            && bullet.y < spaceship.y + spaceship_width
+            && bullet.y > spaceship.y - spaceship_width){
+                healthBar--;
+                if(healthBar == 0){
+                    alert("You Lost");
+                }
+                reset();
+            }
     });
 }
 

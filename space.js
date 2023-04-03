@@ -5,23 +5,35 @@ var contextSpace;
 var stars = [];
 var trail =[];
 var stars_velocity = 2;
+var score = 0;
+var scoreTag;
+var healthTag;
 
 $(document).ready(function()
 {
     space = document.getElementById("battle");
     space.width = window.innerWidth / 3;
     space.height = window.innerHeight;
+    scoreTag = document.getElementById("score");
+    healthTag = document.getElementById("health");
+    scoreTag.textContent = `Score: ${score}`;
     contextSpace = space.getContext("2d");
     createStars();
     createTrail();
     intervalTimer = setInterval(main, 1);
 });
 
-function backgroundGrad(){
 
-    contextSpace.fillStyle = "black";
-    contextSpace.fillRect(0, 0, space.width, space.height);
+function reset(){
+    createBrigade();
+    shoots = [];
+    enemyShots = [];
+    score = 0;
+    spaceship = {x: battle.width / 2, y: battle.height - spaceship_height*3}
+    enemyBullet = {x: battle.width / 2, y: canvas.height};
+    healthTag.textContent = '🚀'.repeat(healthBar);
 }
+
 
 function createStars(){
     var outerRadius;
@@ -135,5 +147,6 @@ function main() {
     updateBrigade();
     updateFirePositions();
     updateTrailPosition();
+    updateEnemyFirePositions();
     updateSpaceshipPositions();
 }
