@@ -1,4 +1,4 @@
-const trailer = document.getElementById("trailer");
+var trailer;
 var spaceship = {cx: 50, cy : 50}
 
 var battle;
@@ -7,6 +7,7 @@ var contextBattle;
 var shoots = [];
 
 $(document).ready(function() {
+    trailer = document.getElementById("trailer");
     battle = document.getElementById("battle");
     // battle.width = window.innerWidth / 3;
     // battle.height = window.innerHeight;
@@ -55,6 +56,10 @@ function fire(event){
 function updateFirePositions(){
     shoots.forEach(shoot => {       
         shoot.y = shoot.y - 1;
+        if(shoot.y < 0 ){
+            var index = shoots.indexOf(shoot);
+            shoots.splice(index, 1);
+        }
         contextBattle.beginPath();
         contextBattle.fillStyle = "yellow";
         contextBattle.arc(shoot.x, shoot.y, 4, 0, Math.PI*2);

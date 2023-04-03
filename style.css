@@ -1,5 +1,7 @@
 :root{
 
+    --poistion: 200px;
+
     --outer-shadow: 
     0 0 0.1vw 0.4vw #e0f7fa,
     0 0 0.4vw 0.6vw #00e5ff,
@@ -63,4 +65,58 @@
 
     z-index: 5;
 
+}
+
+#brigade{
+    position: relative;
+}
+
+.squad {
+    position: absolute;
+    z-index: 4;
+    gap: 25px;
+    width: 300px;
+    height: 30px;
+    left: 100px;
+    display: flex;
+}
+
+.enemy {
+    background-color: grey;
+    height: 30px;
+    width: 30px; 
+    border: black 1px solid;
+    float:left;
+}
+
+.s1 {
+    top: 130px;
+}
+
+.s1 > .enemy {
+    background-color: red;
+}
+
+.s2 {
+    top: 170px;
+}
+
+.s2 > .enemy {
+    background-color: #1d3687;
+}
+
+.s3 {
+    top: 210px;
+}
+
+.s3 > .enemy {
+    background-color: darkgoldenrod;
+}
+
+.s4 {
+    top: 250px;
+}
+
+.s4 > .enemy {
+    background-color:rebeccapurple;
 }
