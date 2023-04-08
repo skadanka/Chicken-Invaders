@@ -2,23 +2,150 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel="stylesheet" href="gamestyle.css" type="text/css">
+    <link rel="stylesheet" href="menu.css" type="text/css">
     <script type="text/javascript" src="jquery.js"></script>
     <script type="text/javascript" src="space.js" defer></script>
     <script type="text/javascript" src="spaceship.js"></script>
     <script type="text/javascript" src="enemeis.js"></script>
+    <script type="text/javascript" src="menu.js"></script>
 
 
     <title>Chicken Invaders</title>
 </head>
 <body>
-    <!-- <canvas id="space"></canvas> -->
-    <div id="wrapper" >
-        <canvas id="space" width="788" height="850">
-        </canvas>
+    <canvas id="space"></canvas>
+    
+    <div id="game" style="display: none;">
         <div id="score">Score:</div>
         <div id="health">🚀🚀🚀</div>
         <button id="play" onclick="pauseOrplay()" style="position:absolute; margin-top: -95vh; left: 50%;" class="card">Play</button>  
     </div>
+
+    <div id="header">
+        <div class="header-section">Logo</div>
+        <div class="header-section">Chicken Invaders</div>
+        <div class="header-section"></div>
+        <button id="menu-toggle" type="button" onclick="menuToggle()" class="card toggle-bt">Main menu</button>
+        <button id="sign-in" type="button" onclick="signInToggle()" class="card toggle-bt">Sign In</button>
+        <button id="login" type="button" onclick="loginToggle()" class="card toggle-bt">Login</button>
+    </div>
+
+    <div id="main-menu" style="display: none;">
+        <h1 id="title-ci">Chicken<br>&nbsp &nbsp &nbsp Invaders</h1>
+        <div id="menu">
+            <div class="card" id="start-game-bt" onclick="startGame()">Start Game</div>
+            <div class="card" id="options-bt">Options</div>
+            <div class="card" id="about-bt" onclick="aboutToggle()">About</div>
+        </div>
+    </div>
+
+    <div id="sign-in-screen" style="display: none;">
+        <form id="sign-in">
+            <label id="username-label">Username: </label>
+            <input type="text" class="input-space" id="username-input">
+            <label id="password1-label">Password:</label>
+            <input type="password" class="input-space" id="password1-input">
+            <label id="password2-label">Verify Password:</label>
+            <input type="password" class="input-space" id="password2-input">
+            <label id="first-name-label">First Name: </label>
+            <input type="text" class="input-space" id="first-name-input">
+            <label id="last-name-label">Last Name: </label>
+            <input type="text" class="input-space" id="last-name-input">
+            <label>Birthdate:</label>
+            <input type="text" class="input-space" id="birthday"><br>
+            <input type="button" class="card" onclick="Register()" value="Register">
+        </form>
+    </div>
+
+    <div id="login-screen">
+        <h1 style="color:white; top: -55%; left: 35%;">Login</h1>
+        <form id="login">
+            <label id="login-msg"></label>
+            <label>Username: </label>
+            <input type="text" class="input-space" id="connect-username">
+            <label>Password: </label>
+            <input type="password" class="input-space" id="connect-password">
+            <input type="button" style="position: relative; font-size: 20px;" class="card"  value="Connect" onclick="Connect()">
+            <input type="button" style="position: relative; font-size: 20px;" class="card" value="Register"  onclick="signInToggle();loginToggle()">
+        </form>
+    </div>
+        
+        <div id="about">
+            <legend id="about-exit" onclick="aboutToggle()">X</legend>
+            <h1>About</h1>
+            <p>
+                Hello out name is Eden & Shelly<br>
+                We've created this game for universty project<br>
+                Developing In network enivroments.
+            </p>
+        </div>
 </body>
+<script>
+    var intervalTimer;
+    const accounts = [{username: "p",password: 'testuser'}];
+    localStorage.setItem("Accounts", JSON.stringify(accounts));
+
+    
+    $(document).ready(function() {
+        menuSpaceOn();
+    })
+
+
+    function menuSpaceOn(){
+        if(intervalTimer){
+            clearInterval(intervalTimer)
+        }
+        intervalTimer = setInterval(() => {
+            contextSpace.clearRect(0, 0, space.width, space.height);
+            updateStarPosition();
+        }, 1);
+    }
+
+    function menuSpaceOff(){
+        clearInterval(intervalTimer);      
+    }
+
+    function startGame(){
+        var game = document.getElementById("game");
+        game.style.display = "block";
+        menuSpaceOff();
+        toggleMenu();
+        pauseOrplay();
+    }
+
+    function toggleMenu(){
+        var main_menu = document.getElementById("main-menu").style.display = "none";
+        var signIn = document.getElementById("sign-in-screen").style.display = "none";
+        var login = document.getElementById("login-screen").style.display = "none";
+        var header = document.getElementById("header").style.display = "none";
+    }
+
+    function pauseOrplay(){
+        const play = document.getElementById("play");
+        setSpaceship();
+        enemyBullet = {x: space.width / 2, y: space.height};
+
+        if(!gameState){
+            intervalTimer = setInterval(() => {
+                contextSpace.clearRect(0, 0, space.width, space.height);
+                updateStarPosition();
+                updateBrigade();
+                updateTrailPosition();
+                updateFirePositions();
+                updateEnemyFirePositions();
+                updateSpaceshipPositions();
+            }, 1);
+            play.innerHTML = "Pause";
+            gameState = true;
+
+        }else{
+            clearInterval(intervalTimer);
+            play.innerHTML = "Play";
+            gameState = false;
+        }  
+    }
+
+</script>
+
 </html>

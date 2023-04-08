@@ -31,27 +31,6 @@ $(document).ready(function()
 });
 
 
-function pauseOrplay(){
-    const play = document.getElementById("play");
-
-    if(!gameState){
-        intervalTimer = setInterval(() => {
-            contextSpace.clearRect(0, 0, space.width, space.height);
-            updateStarPosition();
-            updateBrigade();
-            updateTrailPosition();
-            updateFirePositions();
-            updateEnemyFirePositions();
-            updateSpaceshipPositions();
-        }, 1);
-        play.innerHTML = "Pause";
-    }else{
-        clearInterval(intervalTimer);
-        play.innerHTML = "Play";
-    }
-    
-    gameState != gameState;
-}
 
 
 function reset(){
@@ -183,22 +162,3 @@ function updateTrailPosition() {
 }
 
 
-function main() {
-    contextSpace.clearRect(0, 0, space.width, space.height);
-    updateStarPosition();
-    // updateBrigade();
-    // updateTrailPosition();
-    // updateFirePositions();
-    // updateEnemyFirePositions();
-    // updateSpaceshipPositions();
-}
-
-function main1() {
-    contextSpace.clearRect(0, 0, space.width, space.height);
-    updateStarPosition();
-    updateBrigade();
-    updateTrailPosition();
-    updateFirePositions();
-    updateEnemyFirePositions();
-    updateSpaceshipPositions();
-}

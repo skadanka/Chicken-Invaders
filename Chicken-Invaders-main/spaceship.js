@@ -14,16 +14,14 @@ $(document).ready(function() {
     battle = document.getElementById("space");
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
-    spaceship = {x: battle.width / 2, y: battle.height - 6*spaceship_height}
-    shoots = new Array();
-    // battle.width = window.innerWidth / 3;
-    // battle.height = window.innerHeight;
-    contextBattle = battle.getContext("2d");
-    // battle.addEventListener("mousedown", function(e){
-    //     fire(e);
-    // });
 
+    shoots = new Array();
+    contextBattle = battle.getContext("2d");
 })
+
+function setSpaceship(){
+    spaceship = {x: battle.width / 2, y: battle.height - spaceship_height*3}
+}
 
 function keyDownHandler(e) {
 
