@@ -59,7 +59,8 @@ function reset(){
 function createStars(){
     var outerRadius;
     var velocity;
-    for(var i = 0; i < 30; i++){
+    for(var i = 0; i < 20
+        ; i++){
         outerRadius = Math.random()*3;
         velocity = (Math.random()+1)*stars_velocity;
         stars.push({

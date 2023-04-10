@@ -9,6 +9,7 @@ var upPressed = false;
 
 var healthBar = 3;
 
+var fireButton = " ";
 
 $(document).ready(function() {
     battle = document.getElementById("space");
@@ -17,6 +18,8 @@ $(document).ready(function() {
 
     shoots = new Array();
     contextBattle = battle.getContext("2d");
+
+    spaceship = {x: 0, y:0};
 })
 
 function setSpaceship(){
@@ -39,7 +42,7 @@ function keyDownHandler(e) {
 
 
 function keyUpHandler(e) {
-    if(e.key == " "){
+    if(e.key == fireButton){
         fire(e);
     }
     if (e.key == "Right" || e.key == "ArrowRight" ){
@@ -95,7 +98,7 @@ function updateSpaceshipPositions(){
         spaceship.x = spaceship.x - spaceship_speed;
     }
 
-    if(upPressed && spaceship.y > (battle.height / 2) + spaceship_height){
+    if(upPressed && spaceship.y > (battle.height * 0.6) + spaceship_height){
         spaceship.y = spaceship.y - spaceship_speed;
     }else if(downPressed && spaceship.y < battle.height - spaceship_height){
         spaceship.y = spaceship.y + spaceship_speed;
@@ -105,14 +108,14 @@ function updateSpaceshipPositions(){
 
 function updateFirePositions(){
     shoots.forEach(shoot => {       
-        shoot.y = shoot.y - 1;
+        shoot.y = shoot.y - 2.5;
         if(shoot.y < 0 ){
             var index = shoots.indexOf(shoot);
             shoots.splice(index, 1);
         }
  
         contextBattle.beginPath();
-        contextBattle.arc(shoot.x, shoot.y, 2, 0, Math.PI*2);
+        contextBattle.arc(shoot.x, shoot.y, 3, 0, Math.PI*2);
         contextBattle.fillStyle = "yellow";
         contextBattle.strokeStyle = "darkorange";
         contextBattle.fill();

@@ -9,18 +9,12 @@
     <script type="text/javascript" src="spaceship.js"></script>
     <script type="text/javascript" src="enemeis.js"></script>
     <script type="text/javascript" src="menu.js"></script>
-
-
+    
+    
     <title>Chicken Invaders</title>
 </head>
 <body>
     <canvas id="space"></canvas>
-    
-    <div id="game" style="display: none;">
-        <div id="score">Score:</div>
-        <div id="health">🚀🚀🚀</div>
-        <button id="play" onclick="pauseOrplay()" style="position:absolute; margin-top: -95vh; left: 50%;" class="card">Play</button>  
-    </div>
 
     <div id="header">
         <div class="header-section">Logo</div>
@@ -29,33 +23,6 @@
         <button id="menu-toggle" type="button" onclick="menuToggle()" class="card toggle-bt">Main menu</button>
         <button id="sign-in" type="button" onclick="signInToggle()" class="card toggle-bt">Sign In</button>
         <button id="login" type="button" onclick="loginToggle()" class="card toggle-bt">Login</button>
-    </div>
-
-    <div id="main-menu" style="display: none;">
-        <h1 id="title-ci">Chicken<br>&nbsp &nbsp &nbsp Invaders</h1>
-        <div id="menu">
-            <div class="card" id="start-game-bt" onclick="startGame()">Start Game</div>
-            <div class="card" id="options-bt">Options</div>
-            <div class="card" id="about-bt" onclick="aboutToggle()">About</div>
-        </div>
-    </div>
-
-    <div id="sign-in-screen" style="display: none;">
-        <form id="sign-in">
-            <label id="username-label">Username: </label>
-            <input type="text" class="input-space" id="username-input">
-            <label id="password1-label">Password:</label>
-            <input type="password" class="input-space" id="password1-input">
-            <label id="password2-label">Verify Password:</label>
-            <input type="password" class="input-space" id="password2-input">
-            <label id="first-name-label">First Name: </label>
-            <input type="text" class="input-space" id="first-name-input">
-            <label id="last-name-label">Last Name: </label>
-            <input type="text" class="input-space" id="last-name-input">
-            <label>Birthdate:</label>
-            <input type="text" class="input-space" id="birthday"><br>
-            <input type="button" class="card" onclick="Register()" value="Register">
-        </form>
     </div>
 
     <div id="login-screen">
@@ -70,19 +37,62 @@
             <input type="button" style="position: relative; font-size: 20px;" class="card" value="Register"  onclick="signInToggle();loginToggle()">
         </form>
     </div>
-        
-        <div id="about">
-            <legend id="about-exit" onclick="aboutToggle()">X</legend>
-            <h1>About</h1>
-            <p>
-                Hello out name is Eden & Shelly<br>
-                We've created this game for universty project<br>
-                Developing In network enivroments.
-            </p>
+
+    <div id="configure-fire" style="display:none;">
+        <h1>Set Fire Key</h1>
+        <input type="text" id="fire-input" class="input-space" id="fireButton-input"  placeholder="click Button">
+        <input type="button" class="card" onclick="configureFireButton()" value="Set" style="font-size:20px">
+    </div>
+    
+    <div id="sign-in-screen" style="display: none;">
+        <form id="sign-in">
+            <label id="username-label">Username: </label>
+            <input type="text" class="input-space" id="username-input">
+            <label id="password1-label">Password:</label>
+            <input type="password" class="input-space" id="password1-input">
+            <label id="password2-label">Verify Password:</label>
+            <input type="password" class="input-space" id="password2-input">
+            <label id="first-name-label">First Name: </label>
+            <input type="text" class="input-space" id="first-name-input">
+            <label id="last-name-label">Last Name: </label>
+            <input type="text" class="input-space" id="last-name-input">
+            <label>Birthdate:</label>
+            <input autocomplete="off" class="text" id="MoveInDate" name="MoveInDate" placeholder="DD-MM-YYYY" type="date" spellcheck="false">
+            <input type="button" class="card" onclick="Register()" value="Register">
+        </form>
+    </div>
+
+
+
+    <div id="game" style="display: none;">
+        <div id="score">Score:</div>
+        <div id="health">🚀🚀🚀</div>
+        <button id="play" onclick="pauseOrplay()" style="position:absolute; margin-top: -95vh; left: 50%;" class="card">Play</button>  
+    </div>
+
+
+    <div id="main-menu" style="display: none;">
+        <h1 id="title-ci">Chicken<br>&nbsp &nbsp &nbsp Invaders</h1>
+        <div id="menu">
+            <div class="card" id="start-game-bt" onclick="startGame()">Start Game</div>
+            <div class="card" id="options-bt">Options</div>
+            <div class="card" id="about-bt" onclick="aboutToggle()">About</div>
         </div>
+    </div>
+        
+    <div id="about" style="display: none;">
+        <legend id="about-exit" onclick="aboutToggle()">X</legend>
+        <h1>About</h1>
+        <p>
+            Hello out name is Eden & Shelly<br>
+            We've created this game for universty project<br>
+            Developing In network enivroments.
+        </p>
+    </div>
 </body>
 <script>
     var intervalTimer;
+    var intervalGameEvents;
     const accounts = [{username: "p",password: 'testuser'}];
     localStorage.setItem("Accounts", JSON.stringify(accounts));
 
@@ -127,6 +137,7 @@
         enemyBullet = {x: space.width / 2, y: space.height};
 
         if(!gameState){
+            
             intervalTimer = setInterval(() => {
                 contextSpace.clearRect(0, 0, space.width, space.height);
                 updateStarPosition();
@@ -136,11 +147,22 @@
                 updateEnemyFirePositions();
                 updateSpaceshipPositions();
             }, 1);
+
+            var increaseCount = 0;
+            intervalGameEvents = setInterval(() => {
+                increaseSpeed(1.2);
+                console.log("Increasing speed")
+                increaseCount++;
+                if(increaseCount === 4)
+                clearInterval(intervalGameEvents);
+            }, 4000);
             play.innerHTML = "Pause";
+
             gameState = true;
 
         }else{
             clearInterval(intervalTimer);
+            clearInterval(intervalGameEvents)
             play.innerHTML = "Play";
             gameState = false;
         }  

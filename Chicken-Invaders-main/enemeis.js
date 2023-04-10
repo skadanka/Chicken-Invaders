@@ -1,7 +1,8 @@
 var canvas;
 var contextShips;
 var enemy_spaceship_size = 13;
-var speed = 2;
+var enemySpaceshipSpeed = 2;
+var enemyFireSpeed = 1;
 
 
 var brigade = [];
@@ -18,6 +19,11 @@ $(document).ready(function(){
     
    createBrigade();
 });
+
+function increaseSpeed(upSpeed){
+    enemyFireSpeed = enemyFireSpeed*upSpeed;
+    enemySpaceshipSpeed = enemySpaceshipSpeed*upSpeed;
+}
 
 function createBrigade(){
     for(let i = 0; i < 4; i++){
@@ -60,13 +66,13 @@ function drawBrigade(speed){
 
 function updateEnemyFirePositions(){
     enemyShots.forEach(shoot => {       
-        shoot.y = shoot.y + 1;
+        shoot.y = shoot.y + enemyFireSpeed;
         if(shoot.y > canvas.height ){
             var index = enemyShots.indexOf(shoot);
             enemyShots.splice(index, 1);
         }
         contextBattle.beginPath();
-        contextBattle.arc(shoot.x, shoot.y, 3, 0, Math.PI*2);
+        contextBattle.arc(shoot.x, shoot.y, 5, 0, Math.PI*2);
         contextBattle.fillStyle = "red";
         contextBattle.strokeStyle = "darkorange";
         contextBattle.fill();
@@ -127,11 +133,11 @@ function updateBrigade(){
     }
 
     if(move_right){
-        startCx = startCx + speed;
-        drawBrigade(speed);
+        startCx = startCx + enemySpaceshipSpeed;
+        drawBrigade(enemySpaceshipSpeed);
     }else{
-        startCx = startCx - speed;
-        drawBrigade(-speed);
+        startCx = startCx - enemySpaceshipSpeed;
+        drawBrigade(-enemySpaceshipSpeed);
     }
 
 }
