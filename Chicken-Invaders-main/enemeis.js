@@ -30,7 +30,7 @@ function createBrigade(){
         brigade[i] = [];
         for(let j = 0; j < 5; j++){
             enemySpaceship = {x: startCx + 60*j, 
-                y:  40 + 50*i, 
+                y:  55 + 50*i, 
                 alive: 1, type: i, 
                 points: points[i], 
                 health: health[i]
@@ -58,6 +58,7 @@ function drawBrigade(speed){
         for(let j = 0; j < 5; j++){
             if(brigade[i][j].alive == 1){
                 brigade[i][j].x += speed;
+                brigade[i][j].y += Math.cos(brigade[i][j].x/30)*speed;
                 drawEnemy(brigade[i][j].x, brigade[i][j].y, colors[i]);         
             }
         }
@@ -90,7 +91,6 @@ function collisionDetetctionEnemy(){
                     brigade[i][j].y + enemy_spaceship_size > shoot.y &&
                     brigade[i][j].y - enemy_spaceship_size < shoot.y ){
                         brigade[i][j].health -= 1;
-                        var index = shoots.indexOf(shoot);
                         shoots.splice(shoot, 1);
                         if(brigade[i][j].health == 0){
                             enemeis_killed++;

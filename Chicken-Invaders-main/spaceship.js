@@ -11,6 +11,8 @@ var healthBar = 3;
 
 var fireButton = " ";
 
+var spaceshipColor = "orange";
+
 $(document).ready(function() {
     battle = document.getElementById("space");
     document.addEventListener("keydown", keyDownHandler, false);
@@ -24,6 +26,10 @@ $(document).ready(function() {
 
 function setSpaceship(){
     spaceship = {x: battle.width / 2, y: battle.height - spaceship_height*3}
+}
+
+function setSpaceshipColor(color){
+    spaceshipColor = color;
 }
 
 function keyDownHandler(e) {
@@ -71,14 +77,14 @@ function drawSpaceship(){
     contextBattle.fill();
     contextBattle.moveTo(spaceship.x, spaceship.y - 15);
     contextBattle.lineTo(spaceship.x - 12, spaceship.y + 5);
-    contextBattle.fillStyle = "#1d3687";
+    contextBattle.fillStyle = spaceshipColor;
     contextBattle.fill();
     contextBattle.lineTo(spaceship.x + 12, spaceship.y + 5);
     contextBattle.strokeStyle = "#979797";
     contextBattle.closePath();
     contextBattle.moveTo(spaceship.x, spaceship - 15);
     contextBattle.arc(spaceship.x, spaceship - 12, 30, Math.PI, Math.PI*2);
-    contextBattle.fillStyle = "orange"
+    contextBattle.fillStyle = "#808080";
     contextBattle.fill()
     contextBattle.stroke();
 }
@@ -136,3 +142,41 @@ function collisionDetetctionSpaceship(){
 }
 
 
+function drawBubble(cx, cy, size){
+    contextSpace.beginPath();
+    contextSpace.arc(cx, cy, size, 0, Math.PI*2);
+    contextSpace.fillStyle = "white";
+    contextSpace.fill();
+    contextSpace.stroke();
+}
+
+
+function updateTrailPosition() {
+    trail.forEach(star => {
+        star.timeToLeave--;
+        if(star.timeToLeave < 1){
+            star.pointY = spaceship.y;
+            star.pointX = spaceship.x;
+            star.timeToLeave = Math.random()*10;
+        }else{ 
+            star.pointY += star.velocity;
+            star.pointX += Math.sin(star.pointY)*3;
+        }
+
+        drawBubble(star.pointX, star.pointY, star.size);
+    });
+}
+
+
+function createTrail(){
+    for(var i = 0; i < 15; i++){
+        velocity = (Math.random()+1)*1;
+        trail.push({
+            pointX: Math.random()*battle.width, 
+            pointY: 30, 
+            size: Math.random()*3,
+            velocity: velocity,
+            timeToLeave: Math.random()*15
+        });
+    }
+}

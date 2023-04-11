@@ -38,10 +38,29 @@
         </form>
     </div>
 
-    <div id="configure-fire" style="display:none;">
-        <h1>Set Fire Key</h1>
-        <input type="text" id="fire-input" class="input-space" id="fireButton-input"  placeholder="click Button">
-        <input type="button" class="card" onclick="configureFireButton()" value="Set" style="font-size:20px">
+    <div id="configure-fire" style="display: none;">
+        <h1>Fire Key</h1>
+        <input type="text" id="fire-input" style="min-height: 30px; text-align: center;" class="input-space" id="fireButton-input"  value="Space" >
+        <h1>Round Time</h1>
+        <select class="card" style="width:max-content; height: max-content;" id="timer-setup">
+            <option>2:00</option>
+            <option>2:30</option>
+            <option>3:00</option>
+            <option>3:30</option>
+            <option>4:00</option>
+            <option>4:30</option>
+            <option>5:00</option>
+        </select>
+        <h1>Spaceship color</h1>
+        <select class="card" style="width:max-content; height: max-content;" id="spaceship-color">
+            <option style="background-color: orange;">Orange</option>
+            <option style="background-color: blue;">Blue</option>
+            <option style="background-color: green;;">Green</option>
+            <option style="background-color: yellow;">Yellow</option>
+            <option style="background-color: red;;">Red</option>
+        </select>
+        <input type="button" class="card" onclick="configure()" value="Apply selection" style="font-size:20px">
+        
     </div>
     
     <div id="sign-in-screen" style="display: none;">
@@ -63,46 +82,64 @@
     </div>
 
 
-
-    <div id="game" style="display: none;">
-        <div id="score">Score:</div>
-        <div id="health">🚀🚀🚀</div>
-        <button id="play" onclick="pauseOrplay()" style="position:absolute; margin-top: -95vh; left: 50%;" class="card">Play</button>  
-    </div>
-
-
     <div id="main-menu" style="display: none;">
         <h1 id="title-ci">Chicken<br>&nbsp &nbsp &nbsp Invaders</h1>
         <div id="menu">
             <div class="card" id="start-game-bt" onclick="startGame()">Start Game</div>
-            <div class="card" id="options-bt">Options</div>
+            <div class="card" id="options-bt" onclick="configureToggle()">Options</div>
             <div class="card" id="about-bt" onclick="aboutToggle()">About</div>
         </div>
     </div>
         
-    <div id="about" style="display: none;">
-        <legend id="about-exit" onclick="aboutToggle()">X</legend>
-        <h1>About</h1>
-        <p>
-            Hello out name is Eden & Shelly<br>
-            We've created this game for universty project<br>
-            Developing In network enivroments.
-        </p>
+    <div id="about-modal" class="modal" style="display: none;">
+        <div id="about" class="modal-content">
+            <span id="about-exit" onclick="aboutToggle()">X</span>
+            <h1>About</h1>
+            <p>
+                Hello out name is Eden & Shelly<br>
+                We've created this game for universty project<br>
+                Developing In network enivroments.
+            </p>
+        </div>
     </div>
+
+    <div id="game" style="display: none;">
+        <div id="score">Score:</div>
+        <div id="health">🚀🚀🚀</div>
+        <div id="timer"></div>
+        <button id="play" onclick="pauseOrplay()" style="position:absolute; margin-top: -95vh; left: 50%;" class="card">Play</button>  
+    </div>
+
+
 </body>
 <script>
     var intervalTimer;
     var intervalGameEvents;
+    var intervalTimer;
+    
+    var roundTimer = 2*60*1000;
+    var timerDisplay;
+
+    var aboutModal;
+
     const accounts = [{username: "p",password: 'testuser'}];
     localStorage.setItem("Accounts", JSON.stringify(accounts));
 
     
     $(document).ready(function() {
         menuSpaceOn();
+        timerDisplay = document.getElementById("timer");
+        aboutModal = document.getElementById("about-modal");
     })
 
+    window.onclick = (event) => {
+        if(event.target == aboutModal){
+            aboutToggle();
+        }
+    }
 
     function menuSpaceOn(){
+
         if(intervalTimer){
             clearInterval(intervalTimer)
         }
@@ -110,6 +147,16 @@
             contextSpace.clearRect(0, 0, space.width, space.height);
             updateStarPosition();
         }, 1);
+    }
+
+    function setTimer(timeString){
+        let timeValue = timeString.split('\:');
+        let minutes = parseInt(timeValue[0]);
+        let seconds = parseInt(timeValue[1]);
+        console.log(timeValue);
+        console.log(minutes);
+        console.log(seconds)
+        roundTimer = minutes*60*1000 + seconds*1000;
     }
 
     function menuSpaceOff(){
@@ -130,14 +177,18 @@
         var login = document.getElementById("login-screen").style.display = "none";
         var header = document.getElementById("header").style.display = "none";
     }
+    
 
     function pauseOrplay(){
         const play = document.getElementById("play");
         setSpaceship();
         enemyBullet = {x: space.width / 2, y: space.height};
 
+
+
         if(!gameState){
             
+            createStars(10);
             intervalTimer = setInterval(() => {
                 contextSpace.clearRect(0, 0, space.width, space.height);
                 updateStarPosition();
@@ -150,23 +201,61 @@
 
             var increaseCount = 0;
             intervalGameEvents = setInterval(() => {
-                increaseSpeed(1.2);
-                console.log("Increasing speed")
+                increaseSpeed(1.07);
                 increaseCount++;
-                if(increaseCount === 4)
-                clearInterval(intervalGameEvents);
+                if(increaseCount === 4){
+                    clearInterval(intervalGameEvents);
+                }
             }, 4000);
             play.innerHTML = "Pause";
+
+            var time = roundTimer;
+            intervalTimer = setInterval(() => {
+                var minutes = Math.floor(time / (1000*60)).toString().padStart(2, 0);
+                var seconds = Math.floor((time % (60*1000)/ 1000)).toString().padStart(2, 0);
+
+                timerDisplay.innerHTML = `${minutes}:${seconds}`;
+                time = time - 1000;
+
+                if( time == 0){
+                    alert("Game Over");
+                }
+            }, 1000);
 
             gameState = true;
 
         }else{
             clearInterval(intervalTimer);
             clearInterval(intervalGameEvents)
+            clearInterval(intervalTimer);
+
             play.innerHTML = "Play";
             gameState = false;
         }  
     }
+
+    function reset(){
+        // createBrigade();
+        if(healthBar == 0){
+            alert("You Lost");
+            healthBar = 3;
+            enemeis_killed = 0;
+        }
+        if(enemeis_killed == 20){
+            alert("You Won");
+            healthBar = 3;
+            enemeis_killed = 0;
+        }
+
+        // score = 0;
+        scoreTag.textContent = `Score: ${score}`;
+        shoots = [];
+        enemyShots = [];
+        spaceship = {x: space.width / 2, y: space.height - spaceship_height*3}
+        enemyBullet = {x: space.width / 2, y: space.height};
+        healthTag.textContent = '🚀'.repeat(healthBar);
+    }
+
 
 </script>
 

@@ -25,41 +25,16 @@ $(document).ready(function()
     healthTag = document.getElementById("health");
     scoreTag.textContent = `Score: ${score}`;
     contextSpace = space.getContext("2d");
-    createStars();
     createTrail();
-
+    createStars(20);
 });
 
 
-
-
-function reset(){
-    createBrigade();
-    if(healthBar == 0){
-        alert("You Lost");
-        healthBar = 3;
-        enemeis_killed = 0;
-    }
-    if(enemeis_killed == 20){
-        alert("You Won");
-        healthBar = 3;
-        enemeis_killed = 0;
-    }
-
-    score = 0;
-    scoreTag.textContent = `Score: ${score}`;
-    shoots = [];
-    enemyShots = [];
-    spaceship = {x: space.width / 2, y: space.height - spaceship_height*3}
-    enemyBullet = {x: space.width / 2, y: space.height};
-    healthTag.textContent = '🚀'.repeat(healthBar);
-}
-
-
-function createStars(){
+function createStars(starsAmount){
     var outerRadius;
     var velocity;
-    for(var i = 0; i < 20
+    stars = []
+    for(var i = 0; i < starsAmount
         ; i++){
         outerRadius = Math.random()*3;
         velocity = (Math.random()+1)*stars_velocity;
@@ -73,24 +48,6 @@ function createStars(){
     }
 }
 
-function createTrail(){
-    var outerRadius;
-    var velocity;
-    for(var i = 0; i < 5; i++){
-        outerRadius = Math.random()*3;
-        velocity = (Math.random()+1)*stars_velocity;
-        rotate = Math.random()*45;
-        trail.push({
-            pointX: Math.random()*space.width, 
-            pointY: 30, 
-            outerRadius: 
-            outerRadius, 
-            innerRadius: outerRadius/2, 
-            velocity: velocity,
-            timeToLeave: Math.random()*6
-        });
-    }
-}
 
 
 
@@ -146,20 +103,5 @@ function updateStarPosition() {
     });
 }
 
-
-function updateTrailPosition() {
-    trail.forEach(star => {
-        star.timeToLeave--;
-        if(star.timeToLeave < 1){
-            star.pointY = spaceship.y;
-            star.pointX = spaceship.x;
-            star.timeToLeave = Math.random()*10;
-        }else{ 
-            star.pointY += star.velocity;
-        }
-        star.rotate = star.rotate*1.002 % 2;
-        drawStar(star.pointX, star.pointY, 5, star.outerRadius, star.innerRadius);
-    });
-}
 
 
