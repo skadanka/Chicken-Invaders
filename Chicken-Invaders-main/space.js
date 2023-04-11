@@ -85,7 +85,6 @@ function drawStar(cx, cy, radius){
     contextSpace.arc(cx, cy, radius, 0, Math.PI*2);
     contextSpace.fillStyle = "white";
     contextSpace.fill();
-    contextSpace.stroke();
 }   
 
 function updateStarPosition() {
@@ -101,6 +100,8 @@ function updateStarPosition() {
         // drawStar(star.pointX, star.pointY, 5, star.outerRadius, star.innerRadius, star.rotate);
         drawStar(star.pointX, star.pointY, star.outerRadius);
     });
+    contextSpace.stroke();
+
 }
 
 

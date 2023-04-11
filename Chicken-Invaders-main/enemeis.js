@@ -49,7 +49,6 @@ function drawEnemy(cx, cy, color){
     contextShips.strokeStyle = 'grey';
     contextShips.fillStyle = color;
     contextShips.fill();
-    contextShips.stroke();
 }
 
 function drawBrigade(speed){
@@ -63,6 +62,7 @@ function drawBrigade(speed){
             }
         }
     }
+    contextShips.stroke();
 }
 
 function updateEnemyFirePositions(){
@@ -77,7 +77,6 @@ function updateEnemyFirePositions(){
         contextBattle.fillStyle = "red";
         contextBattle.strokeStyle = "darkorange";
         contextBattle.fill();
-        contextBattle.stroke();
     });
 }
 
@@ -90,9 +89,11 @@ function collisionDetetctionEnemy(){
                     brigade[i][j].x - enemy_spaceship_size < shoot.x && 
                     brigade[i][j].y + enemy_spaceship_size > shoot.y &&
                     brigade[i][j].y - enemy_spaceship_size < shoot.y ){
+                        enemyHitSound.play();
                         brigade[i][j].health -= 1;
                         shoots.splice(shoot, 1);
                         if(brigade[i][j].health == 0){
+                            enemyExplodeSound.play();
                             enemeis_killed++;
                             score = score + brigade[i][j].points;
                             scoreTag.textContent = `Score: ${score}`;
@@ -102,7 +103,12 @@ function collisionDetetctionEnemy(){
             }
         }
     });
+    contextBattle.stroke();
+    
 }
+
+
+
 
 function enemyShot(){
     if(enemyBullet.y > canvas.height*0.75){

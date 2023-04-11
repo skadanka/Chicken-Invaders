@@ -69,6 +69,7 @@ function fire(event){
     var cx = spaceship.x, cy = spaceship.y;
     bullet = {x: cx, y: cy, alive: 1}; 
     shoots.push(bullet);
+    spaceshipShoot.play();
 }
 
 function drawSpaceship(){
@@ -135,6 +136,7 @@ function collisionDetetctionSpaceship(){
             && bullet.x > spaceship.x - spaceship_width
             && bullet.y < spaceship.y + spaceship_width
             && bullet.y > spaceship.y - spaceship_width){
+                spaceshipExplodeSound.play();
                 healthBar--;
                 reset();
             }

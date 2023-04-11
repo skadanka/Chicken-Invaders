@@ -15,12 +15,20 @@
 </head>
 <body>
     <canvas id="space"></canvas>
+    <audio id = "spaceshipExplosion" preload = "auto">
+        <source src = "explosion.wav" type = "audio/mpeg"></audio>
+     <audio id = "spaceshipShoot" preload = "auto">
+        <source src = "shoot.wav" type = "audio/mpeg"></audio>
+     <audio id = "enemyKilled" preload = "auto">
+        <source src = "invaderkilled.wav" type = "audio/mpeg"></audio>
+        <audio id = "enemyHit" preload = "auto">
+            <source src = "fastinvader3.wav" type = "audio/mpeg"></audio>
 
     <div id="header">
         <div class="header-section">Logo</div>
         <div class="header-section">Chicken Invaders</div>
         <div class="header-section"></div>
-        <button id="menu-toggle" type="button" onclick="menuToggle()" class="card toggle-bt">Main menu</button>
+        <button id="menu-toggle" type="button" onclick="menuToggle(true)" class="card toggle-bt">Main menu</button>
         <button id="sign-in" type="button" onclick="signInToggle()" class="card toggle-bt">Sign In</button>
         <button id="login" type="button" onclick="loginToggle()" class="card toggle-bt">Login</button>
     </div>
@@ -38,7 +46,7 @@
         </form>
     </div>
 
-    <div id="configure-fire" style="display: none;">
+    <div id="configure" style="display: none;">
         <h1>Fire Key</h1>
         <input type="text" id="fire-input" style="min-height: 30px; text-align: center;" class="input-space" id="fireButton-input"  value="Space" >
         <h1>Round Time</h1>
@@ -60,7 +68,6 @@
             <option style="background-color: red;;">Red</option>
         </select>
         <input type="button" class="card" onclick="configure()" value="Apply selection" style="font-size:20px">
-        
     </div>
     
     <div id="sign-in-screen" style="display: none;">
@@ -75,6 +82,8 @@
             <input type="text" class="input-space" id="first-name-input">
             <label id="last-name-label">Last Name: </label>
             <input type="text" class="input-space" id="last-name-input">
+            <label id="email-label">Last Name: </label>
+            <input type="text" class="input-space" id="email-input">
             <label>Birthdate:</label>
             <input autocomplete="off" class="text" id="MoveInDate" name="MoveInDate" placeholder="DD-MM-YYYY" type="date" spellcheck="false">
             <input type="button" class="card" onclick="Register()" value="Register">
@@ -86,7 +95,7 @@
         <h1 id="title-ci">Chicken<br>&nbsp &nbsp &nbsp Invaders</h1>
         <div id="menu">
             <div class="card" id="start-game-bt" onclick="startGame()">Start Game</div>
-            <div class="card" id="options-bt" onclick="configureToggle()">Options</div>
+            <div class="card" id="options-bt" onclick="configureToggle();menuToggle(false);">Options</div>
             <div class="card" id="about-bt" onclick="aboutToggle()">About</div>
         </div>
     </div>
@@ -122,6 +131,12 @@
 
     var aboutModal;
 
+    var enemyExplodeSound;
+    var spaceshipExplodeSound;
+    var spaceshipShootSound;
+    var enemyHitSound;
+
+
     const accounts = [{username: "p",password: 'testuser'}];
     localStorage.setItem("Accounts", JSON.stringify(accounts));
 
@@ -130,6 +145,11 @@
         menuSpaceOn();
         timerDisplay = document.getElementById("timer");
         aboutModal = document.getElementById("about-modal");
+
+        enemyExplodeSound = document.getElementById("enemyKilled");
+        spaceshipExplodeSound = document.getElementById("spaceshipExplosion");
+        spaceshipShootSound = document.getElementById("spaceshipShoot");
+        enemyHitSound = document.getElementById("enemyHit");
     })
 
     window.onclick = (event) => {
@@ -187,7 +207,6 @@
 
 
         if(!gameState){
-            
             createStars(10);
             intervalTimer = setInterval(() => {
                 contextSpace.clearRect(0, 0, space.width, space.height);
@@ -206,7 +225,7 @@
                 if(increaseCount === 4){
                     clearInterval(intervalGameEvents);
                 }
-            }, 4000);
+            }, 5000);
             play.innerHTML = "Pause";
 
             var time = roundTimer;
@@ -256,6 +275,27 @@
         healthTag.textContent = '🚀'.repeat(healthBar);
     }
 
+    colors = ["red", "green", "blue", "yellow", "green"]
+
+
+var x = 1;
+    function animate(){
+    if(x > 30){
+        return;
+    }
+    
+        requestAnimationFrame(animate);
+        
+    context.beginPath();
+    context.arc(200, 200, x++, 0, Math.PI*2, true);
+    
+    context.fillStyle = colors[x % colors.length];
+    context.fill();
+    
+    context.stroke();
+
+    
+    }
 
 </script>
 
