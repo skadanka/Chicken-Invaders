@@ -29,11 +29,11 @@
         <div class="header-section">Chicken Invaders</div>
         <div class="header-section"></div>
         <button id="menu-toggle" type="button" onclick="menuToggle(true)" class="card toggle-bt">Main menu</button>
-        <button id="sign-in" type="button" onclick="signInToggle()" class="card toggle-bt">Sign In</button>
+        <button id="sign-in" type="button" onclick="signInToggle()" class="card toggle-bt">Register</button>
         <button id="login" type="button" onclick="loginToggle()" class="card toggle-bt">Login</button>
     </div>
 
-    <div id="login-screen">
+    <div id="login-screen" style="display: none;">
         <h1 style="color:white; top: -55%; left: 35%;">Login</h1>
         <form id="login">
             <label id="login-msg"></label>
@@ -91,8 +91,13 @@
     </div>
 
 
-    <div id="main-menu" style="display: none;">
-        <h1 id="title-ci">Chicken<br>&nbsp &nbsp &nbsp Invaders</h1>
+    <div id="main-menu" >
+        <h1 id="title-ci">
+            <span class="magic">
+                <span class="magic-text">
+                    Chicken<br>&nbsp &nbsp &nbsp Invaders</h1>
+                </span>
+            </span>
         <div id="menu">
             <div class="card" id="start-game-bt" onclick="startGame()">Start Game</div>
             <div class="card" id="options-bt" onclick="configureToggle();menuToggle(false);">Options</div>
@@ -118,7 +123,12 @@
         <div id="timer"></div>
         <button id="play" onclick="pauseOrplay()" style="position:absolute; margin-top: -95vh; left: 50%;" class="card">Play</button>  
     </div>
-
+    
+    <div id="footer">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
 
 </body>
 <script>
@@ -273,28 +283,6 @@
         spaceship = {x: space.width / 2, y: space.height - spaceship_height*3}
         enemyBullet = {x: space.width / 2, y: space.height};
         healthTag.textContent = '🚀'.repeat(healthBar);
-    }
-
-    colors = ["red", "green", "blue", "yellow", "green"]
-
-
-var x = 1;
-    function animate(){
-    if(x > 30){
-        return;
-    }
-    
-        requestAnimationFrame(animate);
-        
-    context.beginPath();
-    context.arc(200, 200, x++, 0, Math.PI*2, true);
-    
-    context.fillStyle = colors[x % colors.length];
-    context.fill();
-    
-    context.stroke();
-
-    
     }
 
 </script>

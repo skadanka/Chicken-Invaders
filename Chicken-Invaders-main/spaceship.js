@@ -33,7 +33,9 @@ function setSpaceshipColor(color){
 }
 
 function keyDownHandler(e) {
-
+    if(e.key == "Esc"){
+        
+    }
     if (e.key == " Right" || e.key == "ArrowRight" ){
         rightPressed = true;
     }else if(e.key == "Left" || e.key == "ArrowLeft"){
