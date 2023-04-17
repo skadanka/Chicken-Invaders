@@ -32,16 +32,14 @@
 
 body {
     height: 96vh;
-    width: 96vw;
+    width: 98vw;
     min-height: 1366;
     min-width: 768;
     overflow: hidden;
-    display: flex;
+
     flex-direction: column;
     font-family: "Rubik", sans-serif;
 
-    display: flex;
-    flex-direction: column;
 }
 
 
@@ -64,12 +62,15 @@ body {
 
 #header {
     display: flex;
-    width: 100%;
-    height: 35px;
     border-bottom: 3px solid var(--main-theme-color);
-    color: white;
+    
+    justify-content: space-between;
+    
+    width: 100%;
     z-index: 1;
-    position: fixed;
+    
+    background-color: var(--main-theme-color);
+    color: white;
 }
 
 
@@ -84,11 +85,7 @@ body {
 
 #title-ci {
 
-    position: relative;
-    
-    top: 10%;
-    left: 30%;
-    font-size: min(12vh, 8vw);
+    font-size: clamp(80px, 40%, 150px);
 
 }
 
@@ -141,21 +138,36 @@ label {
 }
 
 #main-menu {
+    width: 100%;
+    height: 100%;
     border: solid red 1px;
-    display: flex;
+    display: grid;
+    place-items: center;
+
+}
+
+#content {
+    width: clamp(300px, 50%, 600px);
+}
+
+#main-menu > * {
+    width: 100%;
+
 }
 
 
-#menu {
+#container {
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
 
-    position: absolute;
-    width: 40%;
-    height: 22vh;
-
-    top: 39vh;
-    left: 35vw;
+    place-items: center;
+    z-index: 1;
 }
 
+#container > * {
+    border: 2px solid white;
+}
 
 .card {
     height: 33%;
@@ -174,12 +186,12 @@ label {
     min-height: min-content;
 }
 
-.toggle-bt{
+/* .toggle-bt{
     min-width: min-content;
     min-height: min-content;
     height: max(33%, 40px);
     font-size:  inherit;
-}
+} */
 
 .card:hover {
     box-shadow: var(--shadow-card-hover);
@@ -258,48 +270,33 @@ label {
 }
 
 #configure{
-    position: relative;
-    width: 15vw;
-    height: 15vh;
+    display: grid;
 
-    top: 20vh;
-    left:42vw;
+    grid-template-rows: 1fr 2fr 1fr;
+    grid-template-columns: 1fr 1fr;
 
     color: white;
     text-shadow: var(--text-shadow);
 
     font-size: 15px;
 
-    z-index: 3;
+}
+
+#configure * {
+    position: relative;
+    color:white;
 }
 
 #footer {
-    position: sticky;
-    width: 104%;
-    height: 5%;
-
     display: flex;
+    width: 100%;
 
-    margin-top: auto;
-
-
-    z-index: 3;
 
     color: white;
-
-    grid-template-columns: 1fr 1fr 1fr;
-
-    align-items: center;
-
     background-color: var(--main-theme-color);
+    justify-content: space-between;
 
     opacity: 0.5;
 }
 
-#footer > div {
-    width: 34%;
-    height: 100%;
-
-    border-left:1px solid #62519f;
-
-}
+ 

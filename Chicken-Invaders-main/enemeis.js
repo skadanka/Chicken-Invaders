@@ -54,7 +54,7 @@ function drawEnemy(cx, cy, color){
 function drawBrigade(speed){
     collisionDetetctionEnemy();
     for(let i = 0; i < 4; i++){
-        for(let j = 0; j < 5; j++){
+        for(let j = 0; j < brigade[i].length; j++){
             if(brigade[i][j].alive == 1){
                 brigade[i][j].x += speed;
                 brigade[i][j].y += Math.cos(brigade[i][j].x/30)*speed;
@@ -84,7 +84,7 @@ function collisionDetetctionEnemy(){
     shoots.forEach(shoot => {
         for(let i = 0; i < 4; i++){
             for(let j = 0; j < brigade[i].length; j++){
-                if( brigade[i][j].alive == 1 &&
+                if( 
                     brigade[i][j].x  + enemy_spaceship_size > shoot.x && 
                     brigade[i][j].x - enemy_spaceship_size < shoot.x && 
                     brigade[i][j].y + enemy_spaceship_size > shoot.y &&
@@ -97,7 +97,7 @@ function collisionDetetctionEnemy(){
                             enemeis_killed++;
                             score = score + brigade[i][j].points;
                             scoreTag.textContent = `Score: ${score}`;
-                            brigade[i][j].alive = 0;
+                            brigade[i].splice(brigade[i].indexOf(brigade[i][j]),1)
                         }
                 }
             }
@@ -106,8 +106,6 @@ function collisionDetetctionEnemy(){
     contextBattle.stroke();
     
 }
-
-
 
 
 function enemyShot(){

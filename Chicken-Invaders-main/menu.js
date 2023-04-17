@@ -76,6 +76,13 @@ const Register = () => {
     
     localStorage.setAccount(username.value, account);
 
+    username .innerHTML = '';
+    password1.innerHTML = '';
+    firstName.innerHTML = '';
+    lastName .innerHTML = '';
+    birthdate.innerHTML = ''; 
+    email.innerHTML = '';
+
     // localStorage.setItem(account.username, JSON.stringify(account));
     loginToggle();
     signInToggle();
@@ -232,4 +239,9 @@ function configureToggle(){
     } else {
         about.style.display = "none";
     }
+}
+
+function backLoginScreen(){
+    loginToggle();
+    signInToggle();
 }
