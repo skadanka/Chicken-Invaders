@@ -1,33 +1,10 @@
-var space;
-var contextSpace;
-
 var status = true;
 
 var stars = [];
 var trail =[];
 var stars_velocity = 2;
-var score = 0;
-var scoreTag;
-var healthTag;
 
 var gameState = false;
-
-$(document).ready(function()
-{
-    space = document.getElementById("space");
-
-    space.style.width='100%';
-    space.style.height='100%';
-    space.width  = space.offsetWidth;
-    space.height = space.offsetHeight;
-
-    scoreTag = document.getElementById("score");
-    healthTag = document.getElementById("health");
-    scoreTag.textContent = `Score: ${score}`;
-    contextSpace = space.getContext("2d");
-    createTrail();
-    createStars(20);
-});
 
 
 function createStars(starsAmount){
@@ -47,8 +24,6 @@ function createStars(starsAmount){
         });
     }
 }
-
-
 
 
 function drawStar(cx,cy,spikes,outerRadius,innerRadius){

@@ -243,7 +243,7 @@ function configureToggle(){
             "keyup",
             (event) => {
                 keyConfig.value = event.code;
-                fireButton = event.key;
+                setFireButton(event.key);
             }
         )
     } else {

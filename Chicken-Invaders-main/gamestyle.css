@@ -14,39 +14,28 @@
 }
 
 #game{
-    height: auto;
+    position: fixed;
+    top: 10px;
+
     display: flex;
     justify-content: space-between;
+    
+    height: auto;
+    width: 100%;
 
     color: white;
     text-shadow: var(--text-shadow);
-
-}
-
-#score {
-    position: absolute;
-    height: 50%;
-    width: 50%;
-    top: 8px;
-    left: 8px;
-    font-family:cursive;
-
-}
-
-#health {
-    font-size: 1.8vw;
-    position: absolute;
     
-    object-fit: contain;
-
-    right: 2px;
-    top: 8px;   
+    font-size: 21px;
+    z-index: 1;
 }
 
-#timer {
-    position: absolute;
+#play {
+    position:fixed;
 
-    top: 2vh;
-    left: 50vw;
+    bottom: 30px;
+    left: 10px;
 
+    height: 10px;
+    width: 20px;
 }

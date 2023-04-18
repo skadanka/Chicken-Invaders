@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="gamestyle.css" type="text/css">
     <link rel="stylesheet" href="menu.css" type="text/css">
     <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="main.js"></script>
     <script type="text/javascript" src="space.js" defer></script>
     <script type="text/javascript" src="spaceship.js"></script>
     <script type="text/javascript" src="enemeis.js"></script>
@@ -21,9 +22,10 @@
         <source src = "shoot.wav" type = "audio/mpeg"></audio>
      <audio id = "enemyKilled" preload = "auto">
         <source src = "invaderkilled.wav" type = "audio/mpeg"></audio>
-        <audio id = "enemyHit" preload = "auto">
-            <source src = "fastinvader3.wav" type = "audio/mpeg"></audio>
-    
+    <audio id = "enemyHit" preload = "auto">
+        <source src = "fastinvader3.wav" type = "audio/mpeg"></audio>
+    <audio id = "music" autoplay>
+        <source id="music-source" src = "space-120280.mp3" type = "audio/mp3" ></audio>
 
     <div id="container">
         
@@ -147,218 +149,14 @@
 
     <div id="game" style="display: none;">
         <div id="score">Score:</div>
-        <div id="health">🚀🚀🚀</div>
         <div id="timer"></div>
-        <button id="play" onclick="pauseOrplay()">Play</button>  
+        <div id="health">🚀🚀🚀</div>
+        <button id="play" onclick="pauseOrplay()" class="card" style="width: 30px;">Play</button>  
     </div>
 
 </body>
 <script>
-    var intervalTimer;
-    var intervalGameEvents;
-    var intervalTimer;
-    
-    var roundTimer = 2*60*1000;
-    var timerDisplay;
-
-    var aboutModal;
-    var scoreboard = [];
-    var scoreboardDisplay;
-
-    var enemyExplodeSound;
-    var spaceshipExplodeSound;
-    var spaceshipShootSound;
-    var enemyHitSound;
-
-    var brigade = []
-
-    const accounts = [{username: "p",password: 'testuser'}];
-    localStorage.setItem("Accounts", JSON.stringify(accounts));
-
-    
-    $(document).ready(function() {
-        menuSpaceOn();
-        timerDisplay = document.getElementById("timer");
-        aboutModal = document.getElementById("about-modal");
-        scoreboardDisplay = document.getElementById("scoreboard");
-
-
-        enemyExplodeSound = document.getElementById("enemyKilled");
-        spaceshipExplodeSound = document.getElementById("spaceshipExplosion");
-        spaceshipShootSound = document.getElementById("spaceshipShoot");
-        enemyHitSound = document.getElementById("enemyHit");
-    })
-
-    window.onclick = (event) => {
-        if(event.target == aboutModal){
-            aboutToggle();
-        }
-
-        if(event.target == scoreboardDisplay){
-            scoreboardToggle();
-        }
-    }
-
-
-    function menuSpaceOn(){
-
-        if(intervalTimer){
-            clearInterval(intervalTimer)
-        }
-        intervalTimer = setInterval(() => {
-            contextSpace.clearRect(0, 0, space.width, space.height);
-            updateStarPosition();
-        }, 3);
-    }
-
-    function setTimer(timeString){
-        let timeValue = timeString.split('\:');
-        let minutes = parseInt(timeValue[0]);
-        let seconds = parseInt(timeValue[1]);
-
-        roundTimer = minutes*60*1000 + seconds*1000;
-    }
-
-    function menuSpaceOff(){
-        clearInterval(intervalTimer);      
-    }
-
-    function startGame(){
-        var content = document.getElementById("container").style.display = "none";
-        var game = document.getElementById("game").style.display = "";
-        var brigade = createBrigade(4, 5);
-        menuSpaceOff();
-        pauseOrplay();
-    }
-
-    function endGame(){
-        pauseOrplay();
-        menuSpaceOn();
-
-        addToScoreboard();
-        generateScoreboard();
-        scoreboardToggle();
-
-        var game = document.getElementById("game").style.display = "none";   
-        var content = document.getElementById("container").style.display = "";
-
-    }
-
-    function addRowToScoreboardTable(username, score, time, health, place){    
-        var username_td = document.createTextNode(username)  
-        var score_td = document.createTextNode(score);
-        var health_td = document.createTextNode(time);
-        var time_td = document.createTextNode(health);
-
-        var scoreboard_b = scoreboardDisplay.getElementsByTagName('tbody')[0];
-        var scoreboard_row = scoreboard_b.insertRow();
-
-        var username_cell = scoreboard_row.insertCell();
-        var score_cell = scoreboard_row.insertCell();
-        var health_cell = scoreboard_row.insertCell();
-        var time_cell = scoreboard_row.insertCell();
-
-        username_cell.appendChild(username_td);
-        score_cell.appendChild(score_td);
-        health_cell.appendChild(health_td);
-        time_cell.appendChild(time_td);
-
-        if(place == scoreboard.length){
-            scoreboard_row.style.background = "rgb(208, 218, 225)";
-            scoreboard_row.style.color = "black";
-        }
-    }
-
-
-    function generateScoreboard(){
-        $('#scoreboard-tb tr:not(:first)').remove();
-
-        scoreboard.forEach(row => {
-            addRowToScoreboardTable(row[0], row[1], row[2], row[3], row[4]);
-        });
-    }
-
-
-    function addToScoreboard(){
-        var username = "Eden" // understand how to store the current logged user.
-        var health_td = healthTag.innerHTML;
-        var score_td = scoreTag.innerHTML;
-        var time_td = timerDisplay.innerHTML;
-
-        scoreboard.push([username, health_td, score_td, time_td, scoreboard.length+1]);
-        scoreboard.sort((a,b) => {
-            return b[2].localeCompare(a[2]);
-        });
-    }
-
-    function pauseOrplay(){
-        const play = document.getElementById("play");
-        setSpaceship();
-        enemyBullet = {x: space.width / 2, y: space.height};
-
-
-        if(!gameState){
-            createStars(10);
-            var increaseCount = 0;
-            var timePassed = 0;
-
-            intervalGameEvents = setInterval(() => {
-
-                contextSpace.clearRect(0, 0, space.width, space.height);
-                updateStarPosition();
-                updateBrigade();
-                updateTrailPosition();
-                updateFirePositions();
-                updateEnemyFirePositions();
-                updateSpaceshipPositions();
-
-                timePassed++;
-
-                if(increaseCount < 4 && timePassed % 5000 == 0){
-                    increaseSpeed(1.07);
-                    increaseCount++;
-                }
-            }, 1);
-
-       
-            play.innerHTML = "Pause";
-
-            var time = roundTimer;
-            intervalTimer = setInterval(() => {
-                var minutes = Math.floor(time / (1000*60)).toString().padStart(2, 0);
-                var seconds = Math.floor((time % (60*1000)/ 1000)).toString().padStart(2, 0);
-
-                timerDisplay.innerHTML = `${minutes}:${seconds}`;
-                time = time - 1000;
-
-                if( time == 0){
-                    alert("Game Over");
-                }
-            }, 1000);
-
-            gameState = true;
-
-        }else{
-            clearInterval(intervalTimer);
-            clearInterval(intervalGameEvents)
-
-            play.innerHTML = "Play";
-            gameState = false;
-        }  
-    }
-
-    function reset(){
-        createBrigade();
-
-        score = 0;
-        scoreTag.textContent = `Score: ${score}`;
-        shoots = [];
-        enemyShots = [];
-        spaceship = {x: space.width / 2, y: space.height - spaceship_height*3}
-        enemyBullet = {x: space.width / 2, y: space.height};
-        healthTag.textContent = '🚀'.repeat(healthBar);
-    }
-
+   
 </script>
 
 </html>

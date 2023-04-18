@@ -1,31 +1,20 @@
-var battle;
-var contextBattle;
-
-var shoots;
+var spaceshipBullets = [];
 var rightPressed = false;
 var leftPressed = false;
 var downPressed = false;
 var upPressed = false;
 
-var healthBar = 3;
 
 var fireButton = " ";
 
 var spaceshipColor = "orange";
 
-$(document).ready(function() {
-    battle = document.getElementById("space");
-    document.addEventListener("keydown", keyDownHandler, false);
-    document.addEventListener("keyup", keyUpHandler, false);
-
-    shoots = new Array();
-    contextBattle = battle.getContext("2d");
-
-    spaceship = {x: 0, y:0};
-})
+function setFireButton(key){
+    fireButton = key;
+}
 
 function setSpaceship(){
-    spaceship = {x: battle.width / 2, y: battle.height - spaceship_height*3}
+    spaceship = {x: space.width / 2, y: space.height - spaceship_height*3}
 }
 
 function setSpaceshipColor(color){
@@ -70,26 +59,26 @@ var bullet;
 function fire(event){
     var cx = spaceship.x, cy = spaceship.y;
     bullet = {x: cx, y: cy, alive: 1}; 
-    shoots.push(bullet);
+    spaceshipBullets.push(bullet);
     spaceshipShoot.play();
 }
 
 function drawSpaceship(){
-    contextBattle.beginPath();
-    contextBattle.arc(spaceship.x, spaceship.y, spaceship_width, 0, Math.PI*2);
-    contextBattle.fill();
-    contextBattle.moveTo(spaceship.x, spaceship.y - 15);
-    contextBattle.lineTo(spaceship.x - 12, spaceship.y + 5);
-    contextBattle.fillStyle = spaceshipColor;
-    contextBattle.fill();
-    contextBattle.lineTo(spaceship.x + 12, spaceship.y + 5);
-    contextBattle.strokeStyle = "#979797";
-    contextBattle.closePath();
-    contextBattle.moveTo(spaceship.x, spaceship - 15);
-    contextBattle.arc(spaceship.x, spaceship - 12, 30, Math.PI, Math.PI*2);
-    contextBattle.fillStyle = "#808080";
-    contextBattle.fill()
-    contextBattle.stroke();
+    contextSpace.beginPath();
+    contextSpace.arc(spaceship.x, spaceship.y, spaceship_width, 0, Math.PI*2);
+    contextSpace.fill();
+    contextSpace.moveTo(spaceship.x, spaceship.y - 15);
+    contextSpace.lineTo(spaceship.x - 12, spaceship.y + 5);
+    contextSpace.fillStyle = spaceshipColor;
+    contextSpace.fill();
+    contextSpace.lineTo(spaceship.x + 12, spaceship.y + 5);
+    contextSpace.strokeStyle = "#979797";
+    contextSpace.closePath();
+    contextSpace.moveTo(spaceship.x, spaceship - 15);
+    contextSpace.arc(spaceship.x, spaceship - 12, 30, Math.PI, Math.PI*2);
+    contextSpace.fillStyle = "#808080";
+    contextSpace.fill()
+    contextSpace.stroke();
 }
 
 var spaceship_width = 10;
@@ -101,34 +90,34 @@ var spaceship_speed = 3;
 function updateSpaceshipPositions(){
     collisionDetetctionSpaceship();
     drawSpaceship();
-    if(rightPressed && spaceship.x < battle.width - spaceship_width){
+    if(rightPressed && spaceship.x < space.width - spaceship_width){
         spaceship.x = spaceship.x + spaceship_speed;
     }else if(leftPressed && spaceship.x > 0 + spaceship_width){
         spaceship.x = spaceship.x - spaceship_speed;
     }
 
-    if(upPressed && spaceship.y > (battle.height * 0.6) + spaceship_height){
+    if(upPressed && spaceship.y > (space.height * 0.6) + spaceship_height){
         spaceship.y = spaceship.y - spaceship_speed;
-    }else if(downPressed && spaceship.y < battle.height - spaceship_height){
+    }else if(downPressed && spaceship.y < space.height - spaceship_height){
         spaceship.y = spaceship.y + spaceship_speed;
     }
 }
 
 
 function updateFirePositions(){
-    shoots.forEach(shoot => {       
+    spaceshipBullets.forEach(shoot => {       
         shoot.y = shoot.y - 2.5;
         if(shoot.y < 0 ){
-            var index = shoots.indexOf(shoot);
-            shoots.splice(index, 1);
+            var index = spaceshipBullets.indexOf(shoot);
+            spaceshipBullets.splice(index, 1);
         }
  
-        contextBattle.beginPath();
-        contextBattle.arc(shoot.x, shoot.y, 3, 0, Math.PI*2);
-        contextBattle.fillStyle = "yellow";
-        contextBattle.strokeStyle = "darkorange";
-        contextBattle.fill();
-        contextBattle.stroke();
+        contextSpace.beginPath();
+        contextSpace.arc(shoot.x, shoot.y, 3, 0, Math.PI*2);
+        contextSpace.fillStyle = "yellow";
+        contextSpace.strokeStyle = "darkorange";
+        contextSpace.fill();
+        contextSpace.stroke();
     });
 }
 
@@ -180,7 +169,7 @@ function createTrail(){
     for(var i = 0; i < 15; i++){
         velocity = (Math.random()+1)*1;
         trail.push({
-            pointX: Math.random()*battle.width, 
+            pointX: Math.random()*space.width, 
             pointY: 30, 
             size: Math.random()*3,
             velocity: velocity,
