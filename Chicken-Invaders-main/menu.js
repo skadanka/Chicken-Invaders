@@ -23,7 +23,6 @@ Storage.prototype.getAccount = function(username){
 }
 
 
-
 const Connect = () => {
     const username = document.getElementById("connect-username");
     const password = document.getElementById("connect-password");
@@ -186,11 +185,11 @@ var check_lastname = () => {
 function menuToggle(state) {
     var main_menu = document.getElementById("main-menu");
     if(state){
-        main_menu.style.display = "block";
+        main_menu.style.display = "";
         return;
     }
     if (main_menu.style.display === "none") {
-        main_menu.style.display = "block";
+        main_menu.style.display = "";
     } else {
         main_menu.style.display = "none";
     }
@@ -199,7 +198,7 @@ function menuToggle(state) {
 function signInToggle() {
     var signIn = document.getElementById("sign-in-screen");
     if (signIn.style.display === "none") {
-        signIn.style.display = "block";
+        signIn.style.display = "";
     } else {
         signIn.style.display = "none";
     }
@@ -208,7 +207,7 @@ function signInToggle() {
 function loginToggle(){
     var login = document.getElementById("login-screen");
     if (login.style.display === "none") {
-        login.style.display = "block";
+        login.style.display = "";
     } else {
         login.style.display = "none";
     }
@@ -217,11 +216,21 @@ function loginToggle(){
 function aboutToggle(){
     var about = document.getElementById("about-modal");
     if (about.style.display === "none") {
-        about.style.display = "block";
+        about.style.display = "";
     } else {
         about.style.display = "none";
     }
 }
+
+function scoreboardToggle(){
+    var scoreboard = document.getElementById("scoreboard");
+    if (scoreboard.style.display === "none") {
+        scoreboard.style.display = "";
+    } else {
+        scoreboard.style.display = "none";
+    }
+}
+
 
 
 function configureToggle(){
@@ -234,6 +243,7 @@ function configureToggle(){
             "keyup",
             (event) => {
                 keyConfig.value = event.code;
+                fireButton = event.key;
             }
         )
     } else {

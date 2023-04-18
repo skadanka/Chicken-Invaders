@@ -110,6 +110,7 @@
             <div class="card" id="start-game-bt" onclick="startGame()">Start Game</div>
             <div class="card" id="options-bt" onclick="configureToggle();menuToggle(false);">Options</div>
             <div class="card" id="about-bt" onclick="aboutToggle()">About</div>
+            <div class="card" id="scoreboard-bt" onclick="scoreboardToggle()">Scoreboard</div>
         </div>
     </div>
         
@@ -118,18 +119,22 @@
             <span id="about-exit" onclick="aboutToggle()">X</span>
             <h1>About</h1>
             <p>
-                Hello out name is Eden & Shelly<br>
+                Hello our name is Eden & Shelly<br>
                 We've created this game for universty project<br>
                 Developing In network enivroments.
             </p>
         </div>
     </div>
 
-    <div id="game" style="display: none;">
-        <div id="score">Score:</div>
-        <div id="health">🚀🚀🚀</div>
-        <div id="timer"></div>
-        <button id="play" onclick="pauseOrplay()" style="position:absolute; margin-top: -95vh; left: 50%;" class="card">Play</button>  
+    <div id="scoreboard" class="modal" style="display: none;">
+        <div class="modal-content">
+            <table id="scoreboard-tb">
+                <th>Username</th>
+                <th>Score</th>
+                <th>Time</th>
+                <th>Life</th>
+            </table>
+        </div>
     </div>
     </div>
     
@@ -138,6 +143,13 @@
         <div>content2</div>
         <div>content3 Hello world</div>
     </div>
+    </div>
+
+    <div id="game" style="display: none;">
+        <div id="score">Score:</div>
+        <div id="health">🚀🚀🚀</div>
+        <div id="timer"></div>
+        <button id="play" onclick="pauseOrplay()">Play</button>  
     </div>
 
 </body>
@@ -150,12 +162,15 @@
     var timerDisplay;
 
     var aboutModal;
+    var scoreboard = [];
+    var scoreboardDisplay;
 
     var enemyExplodeSound;
     var spaceshipExplodeSound;
     var spaceshipShootSound;
     var enemyHitSound;
 
+    var brigade = []
 
     const accounts = [{username: "p",password: 'testuser'}];
     localStorage.setItem("Accounts", JSON.stringify(accounts));
@@ -165,6 +180,8 @@
         menuSpaceOn();
         timerDisplay = document.getElementById("timer");
         aboutModal = document.getElementById("about-modal");
+        scoreboardDisplay = document.getElementById("scoreboard");
+
 
         enemyExplodeSound = document.getElementById("enemyKilled");
         spaceshipExplodeSound = document.getElementById("spaceshipExplosion");
@@ -176,7 +193,12 @@
         if(event.target == aboutModal){
             aboutToggle();
         }
+
+        if(event.target == scoreboardDisplay){
+            scoreboardToggle();
+        }
     }
+
 
     function menuSpaceOn(){
 
@@ -193,9 +215,7 @@
         let timeValue = timeString.split('\:');
         let minutes = parseInt(timeValue[0]);
         let seconds = parseInt(timeValue[1]);
-        console.log(timeValue);
-        console.log(minutes);
-        console.log(seconds)
+
         roundTimer = minutes*60*1000 + seconds*1000;
     }
 
@@ -204,20 +224,72 @@
     }
 
     function startGame(){
-        var game = document.getElementById("game");
-        game.style.display = "block";
+        var content = document.getElementById("container").style.display = "none";
+        var game = document.getElementById("game").style.display = "";
+        var brigade = createBrigade(4, 5);
         menuSpaceOff();
-        toggleMenu();
         pauseOrplay();
     }
 
-    function toggleMenu(){
-        var main_menu = document.getElementById("main-menu").style.display = "none";
-        var signIn = document.getElementById("sign-in-screen").style.display = "none";
-        var login = document.getElementById("login-screen").style.display = "none";
-        var header = document.getElementById("header").style.display = "none";
+    function endGame(){
+        pauseOrplay();
+        menuSpaceOn();
+
+        addToScoreboard();
+        generateScoreboard();
+        scoreboardToggle();
+
+        var game = document.getElementById("game").style.display = "none";   
+        var content = document.getElementById("container").style.display = "";
+
     }
-    
+
+    function addRowToScoreboardTable(username, score, time, health, place){    
+        var username_td = document.createTextNode(username)  
+        var score_td = document.createTextNode(score);
+        var health_td = document.createTextNode(time);
+        var time_td = document.createTextNode(health);
+
+        var scoreboard_b = scoreboardDisplay.getElementsByTagName('tbody')[0];
+        var scoreboard_row = scoreboard_b.insertRow();
+
+        var username_cell = scoreboard_row.insertCell();
+        var score_cell = scoreboard_row.insertCell();
+        var health_cell = scoreboard_row.insertCell();
+        var time_cell = scoreboard_row.insertCell();
+
+        username_cell.appendChild(username_td);
+        score_cell.appendChild(score_td);
+        health_cell.appendChild(health_td);
+        time_cell.appendChild(time_td);
+
+        if(place == scoreboard.length){
+            scoreboard_row.style.background = "rgb(208, 218, 225)";
+            scoreboard_row.style.color = "black";
+        }
+    }
+
+
+    function generateScoreboard(){
+        $('#scoreboard-tb tr:not(:first)').remove();
+
+        scoreboard.forEach(row => {
+            addRowToScoreboardTable(row[0], row[1], row[2], row[3], row[4]);
+        });
+    }
+
+
+    function addToScoreboard(){
+        var username = "Eden" // understand how to store the current logged user.
+        var health_td = healthTag.innerHTML;
+        var score_td = scoreTag.innerHTML;
+        var time_td = timerDisplay.innerHTML;
+
+        scoreboard.push([username, health_td, score_td, time_td, scoreboard.length+1]);
+        scoreboard.sort((a,b) => {
+            return b[2].localeCompare(a[2]);
+        });
+    }
 
     function pauseOrplay(){
         const play = document.getElementById("play");
@@ -225,13 +297,13 @@
         enemyBullet = {x: space.width / 2, y: space.height};
 
 
-
         if(!gameState){
             createStars(10);
             var increaseCount = 0;
             var timePassed = 0;
 
-            intervalTimer = setInterval(() => {
+            intervalGameEvents = setInterval(() => {
+
                 contextSpace.clearRect(0, 0, space.width, space.height);
                 updateStarPosition();
                 updateBrigade();
@@ -269,7 +341,6 @@
         }else{
             clearInterval(intervalTimer);
             clearInterval(intervalGameEvents)
-            clearInterval(intervalTimer);
 
             play.innerHTML = "Play";
             gameState = false;
@@ -277,19 +348,9 @@
     }
 
     function reset(){
-        // createBrigade();
-        if(healthBar == 0){
-            alert("You Lost");
-            healthBar = 3;
-            enemeis_killed = 0;
-        }
-        if(enemeis_killed == 20){
-            alert("You Won");
-            healthBar = 3;
-            enemeis_killed = 0;
-        }
+        createBrigade();
 
-        // score = 0;
+        score = 0;
         scoreTag.textContent = `Score: ${score}`;
         shoots = [];
         enemyShots = [];

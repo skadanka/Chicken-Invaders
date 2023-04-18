@@ -13,13 +13,14 @@
 
 }
 
-#game {
-    overflow: hidden;
-    height: 96vh;
-    width: 96vw;
-    position: relative;
-    color: #fff;
+#game{
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+
+    color: white;
     text-shadow: var(--text-shadow);
+
 }
 
 #score {

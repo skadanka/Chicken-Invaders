@@ -100,7 +100,7 @@ body {
     animation: background-pan 5s linear infinite;
 
     background: linear-gradient(
-        to right,
+        to left,
         var(--main-theme-color),
         #11468F,
         #DA1212,
@@ -195,7 +195,7 @@ label {
 
 .card:hover {
     box-shadow: var(--shadow-card-hover);
-    transform: scale(1.08);
+    transform: scale(1.09);
 }
 
 .card:not(:last-child) {
@@ -243,11 +243,7 @@ label {
 }
 
 .modal-content {
-    background-color: grey;
 
-    top: 30vh;
-    left: 40vw;
-    
     width: 40vw;
     height: 60vh;
  
@@ -257,6 +253,11 @@ label {
 
     text-align: center;
 }
+
+#about {
+    background-color: grey;
+}
+
 
 #about-exit{
     position: relative;
@@ -299,4 +300,25 @@ label {
     opacity: 0.5;
 }
 
- 
+#scoreboard-tb {
+    width: 40vw;
+    list-style: none;
+    border-collapse: collapse;
+    color: white;
+}
+
+#scoreboard-tb  *{
+    border: 1px solid black;
+    background: rgba(29, 26, 117, .2);
+    padding: 15px;
+}
+
+#scoreboard-tb th {
+    text-shadow: var(--text-shadow);
+    background-color: rgba(29, 26, 117, 0.8);
+}
+
+
+#scoreboard-tb tr:nth-child(even){
+    background: rgba(29, 26, 117, 0.5);
+}

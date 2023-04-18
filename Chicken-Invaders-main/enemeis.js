@@ -16,8 +16,6 @@ const colors = ['blue', 'green', 'purple', 'red']
 $(document).ready(function(){
     canvas = document.getElementById("space");
     contextShips = canvas.getContext("2d");
-    
-   createBrigade();
 });
 
 function increaseSpeed(upSpeed){
@@ -26,6 +24,7 @@ function increaseSpeed(upSpeed){
 }
 
 function createBrigade(){
+    brigade = []
     for(let i = 0; i < 4; i++){
         brigade[i] = [];
         for(let j = 0; j < 5; j++){
@@ -38,6 +37,7 @@ function createBrigade(){
             brigade[i][j] = enemySpaceship;
         }
     }  
+    return brigade
 } 
 
 function drawEnemy(cx, cy, color){
@@ -110,15 +110,14 @@ function collisionDetetctionEnemy(){
 
 function enemyShot(){
     if(enemyBullet.y > canvas.height*0.75){
-        while(true){
-            var row = Math.round(Math.random()*3);
+        var row = Math.round(Math.random()*3);
 
-            if(brigade[row].length > 0 ){
-                var col = Math.round(Math.random()*(brigade[row].length-1));
-                enemyBullet = {x: brigade[row][col].x, y: brigade[row][col].y};
-                enemyShots.push(enemyBullet);
-                return;
-            }
+        if(brigade[row].length > 0 ){
+            var col = Math.round(Math.random()*(brigade[row].length-1));
+            enemyBullet = {x: brigade[row][col].x, y: brigade[row][col].y};
+            enemyShots.push(enemyBullet);
+            return;
+
         }
     }
 }
@@ -126,9 +125,11 @@ function enemyShot(){
 var startCx = 20;
 var move_right = true;
 function updateBrigade(){
+
     if(enemeis_killed == 20){
-        reset();
+        endGame();
     }
+
     enemyShot();
     if(startCx > canvas.width - enemy_spaceship_size*2*9){
         move_right = false;

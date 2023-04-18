@@ -140,7 +140,11 @@ function collisionDetetctionSpaceship(){
             && bullet.y > spaceship.y - spaceship_width){
                 spaceshipExplodeSound.play();
                 healthBar--;
-                reset();
+                if(healthBar == 0){
+                    endGame();
+                }else {
+                    reset();
+                }
             }
     });
 }
