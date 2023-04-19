@@ -2,6 +2,8 @@ var enemy_spaceship_size = 13;
 var enemySpaceshipSpeed = 2;
 var enemyFireSpeed = 1;
 
+var stars = []
+
 var enemyShots = [];
 var enemyBullet;
 var enemeis_killed = 0;
@@ -111,7 +113,7 @@ function collisionDetetctionEnemy(){
 
 
 function enemyShot(){
-    if(enemyBullet.y > space.height*0.75){
+    if(!enemyBullet || enemyBullet.y > space.height*0.75){
         var row = Math.round(Math.random()*3);
 
         if(brigade[row].length > 0 ){
@@ -128,10 +130,6 @@ var startCx = 20;
 var move_right = true;
 function updateBrigade(){
 
-    if(enemeis_killed == 20){
-        endGame();
-    }
-
     enemyShot();
     if(startCx > space.width - enemy_spaceship_size*2*9){
         move_right = false;
@@ -147,4 +145,70 @@ function updateBrigade(){
         drawBrigade(-enemySpaceshipSpeed);
     }
 
+}
+
+function deleteEnemyBullet(){
+    enemyBullet = false;
+}
+
+function drawTrophy(cx,cy,spikes,outerRadius,innerRadius){
+    var rot=Math.PI/2*3;
+    var x=cx;
+    var y=cy;
+    var step=Math.PI/spikes;
+
+    contextSpace.beginPath();
+    contextSpace.moveTo(cx,cy-outerRadius)
+    for(i=0;i<spikes;i++){
+        x=cx+Math.cos(rot)*outerRadius;
+        y=cy+Math.sin(rot)*outerRadius;
+      contextSpace.lineTo(x,y)
+      rot+=step
+
+      x=cx+Math.cos(rot)*innerRadius;
+      y=cy+Math.sin(rot)*innerRadius;
+      contextSpace.lineTo(x,y)
+      rot+=step
+    }
+    contextSpace.lineTo(cx,cy-outerRadius);
+    contextSpace.closePath();
+    contextSpace.lineWidth=5;
+    contextSpace.strokeStyle = "blue";
+    contextSpace.fillStyle= "yellow";
+    contextSpace.stroke();
+    
+    contextSpace.fill();
+  }
+
+  function updateTrophyPosition() {
+    stars.forEach(trophy => {
+        if(trophy.pointY > space.height){
+            trophy.pointY = 0;
+            trophy.pointX = Math.random()*space.width;
+        }else{ 
+            trophy.pointY += trophy.velocity;
+        }
+        
+        // drawStar(star.pointX, star.pointY, 5, star.outerRadius, star.innerRadius, star.rotate);
+        drawStar(trophy.pointX, trophy.pointY, trophy.outerRadius);
+    });
+    contextSpace.stroke();
+}
+
+function createTrophies(trophyAmount){
+    var outerRadius;
+    var velocity;
+    stars = []
+    for(var i = 0; i < trophyAmount
+        ; i++){
+        outerRadius = Math.random()*3;
+        velocity = (Math.random()+1)*stars_velocity;
+        stars.push({
+            pointX: Math.random()*space.width, 
+            pointY: 30, 
+            outerRadius: 
+            outerRadius, 
+            velocity: velocity,
+        });
+    }
 }

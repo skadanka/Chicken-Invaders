@@ -127,13 +127,13 @@ function collisionDetetctionSpaceship(){
             && bullet.x > spaceship.x - spaceship_width
             && bullet.y < spaceship.y + spaceship_width
             && bullet.y > spaceship.y - spaceship_width){
+                enemyShots.splice(enemyShots.indexOf(bullet), 1);
                 spaceshipExplodeSound.play();
                 healthBar--;
-                if(healthBar == 0){
-                    endGame();
-                }else {
-                    reset();
-                }
+                setSpaceship();
+                healthTag.textContent = '🚀'.repeat(healthBar);
+                deleteEnemyBullet();                
+            
             }
     });
 }

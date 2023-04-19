@@ -39,3 +39,11 @@
     height: 10px;
     width: 20px;
 }
+
+#endGame{
+    color: red;
+    font-size: 60px;
+    text-shadow: var(--text-shadow);
+
+    font-family: fantasy;
+}
