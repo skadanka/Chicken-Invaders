@@ -9,7 +9,7 @@ var enemyBullet;
 var enemeis_killed = 0;
 
 const points = [20, 15, 10, 5];
-const health = [4, 3, 2, 1]
+const health = [1, 1, 1, 1]
 const colors = ['blue', 'green', 'purple', 'red']
 
 var brigade = []
@@ -20,6 +20,10 @@ function setupEnemy(b_r, b_c){
     brigade_rows = b_r;
     brigade_cols = b_c;
     
+    enemyShots = [];
+    enemyBullet = null;
+    enemeis_killed = 0;
+
     brigade = createBrigade(b_r, b_c);
 }
 

@@ -10,6 +10,7 @@
     <script type="text/javascript" src="spaceship.js"></script>
     <script type="text/javascript" src="enemeis.js"></script>
     <script type="text/javascript" src="menu.js"></script>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     
     
 <title>Chicken Invaders</title>
@@ -24,15 +25,18 @@
         <source src = "invaderkilled.wav" type = "audio/mpeg"></audio>
     <audio id = "enemyHit" preload = "auto">
         <source src = "fastinvader3.wav" type = "audio/mpeg"></audio>
-    <audio id = "music" autoplay>
+    <audio id = "music" >
         <source id="music-source" src = "space-120280.mp3" type = "audio/mp3" ></audio>
 
     <div id="container">
         
     <div id="header">
-        <div class="header-section">Logo</div>
-        <div class="header-section">Chicken Invaders</div>
-        <div class="header-section">Hello</div>
+        <!-- <div class="header-section">Logo</div>
+        <div class="header-section">Something Invaders</div>
+        <div class="header-section">Hello</div> -->
+        <img src="icons8-space-64.png" style="width: 48px; height: 48px;">
+        <p id="header-title">Something Inavders</p>
+        <p id="hello-user" style="margin-right: 5px;">Hello</p>
         <!-- <button id="menu-toggle" type="button" onclick="menuToggle(true)" class="card toggle-bt">Main menu</button>
         <button id="sign-in" type="button" onclick="signInToggle()" class="card toggle-bt">Register</button>
         <button id="login" type="button" onclick="loginToggle()" class="card toggle-bt">Login</button> -->
@@ -44,9 +48,9 @@
         <form id="login">
             <label id="login-msg"></label>
             <label>Username: </label>
-            <input type="text" class="input-space" id="connect-username">
+            <input type="text" class="input-space" id="connect-username" value="p">
             <label>Password: </label>
-            <input type="password" class="input-space" id="connect-password">
+            <input type="password" class="input-space" id="connect-password" value="testuser">
             <input type="button" style="position: relative; font-size: 20px;" class="card"  value="Connect" onclick="Connect()">
             <input type="button" style="position: relative; font-size: 20px;" class="card" value="Register"  onclick="signInToggle();loginToggle()">
         </form>
@@ -90,7 +94,7 @@
             <input type="text" class="input-space" id="first-name-input">
             <label id="last-name-label">Last Name: </label>
             <input type="text" class="input-space" id="last-name-input">
-            <label id="email-label">Last Name: </label>
+            <label id="email-label">Email: </label>
             <input type="text" class="input-space" id="email-input">
             <label>Birthdate:</label>
             <input autocomplete="off" class="text" id="MoveInDate" name="MoveInDate" placeholder="DD-MM-YYYY" type="date" spellcheck="false">
@@ -113,6 +117,7 @@
             <div class="card" id="options-bt" onclick="configureToggle();menuToggle(false);">Options</div>
             <div class="card" id="about-bt" onclick="aboutToggle()">About</div>
             <div class="card" id="scoreboard-bt" onclick="scoreboardToggle()">Scoreboard</div>
+            <div class="card" id="login-bt" onclick="menuToggle();loginToggle();">Login</div>
         </div>
     </div>
         
@@ -141,9 +146,8 @@
     </div>
     
     <div id="footer">
-        <div>content1</div>
-        <div>content2</div>
-        <div>content3 Hello world</div>
+        <div>Eden Abuhtzeira<br>Shelley Kerpel</div>
+        <div>edenabu@post.bgu.ac.il<br>shelleyk@post.bgu.ac.il</div>
     </div>
     </div>
 
@@ -151,7 +155,9 @@
         <div id="score">Score:</div>
         <div id="timer"></div>
         <div id="health">🚀🚀🚀</div>
-        <button id="play" onclick="pauseOrplay()" class="card" style="width: 30px;">Play</button>  
+        <button id="reset" onclick="pauseOrplay();startGame()" >Reset</button>
+        <button id="play" onclick="pauseOrplay()" class="card" style="display: none;">Play</button>  
+
     </div>
 
     <div id="endGame" class="modal" style="display: none;">

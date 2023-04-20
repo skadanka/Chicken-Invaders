@@ -1,3 +1,5 @@
+var currentUser;
+
 const getAccounts = function() {
     return JSON.parse(localStorage.getItem("Accounts"));
 }
@@ -27,6 +29,7 @@ const Connect = () => {
     const username = document.getElementById("connect-username");
     const password = document.getElementById("connect-password");
     const msg = document.getElementById("login-msg");
+    const hello = document.getElementById("hello-user");
 
     var span=""
 
@@ -38,6 +41,8 @@ const Connect = () => {
     }
 
     msg.innerHTML = "";
+    currentUser = account;
+    hello.innerText = `Hello, ${username.value}`;
     configureToggle();
     loginToggle();
 }
@@ -103,10 +108,11 @@ var check_username = () => {
 
     var span = ""
 
-    if (usernameIn.value.length < 5) {
+    if (usernameIn.value.length < 1) {
         var span = "<span style='color: red;'>Please Insert Valid Username</span>"
         acceptForm = acceptForm && false;
-    }else if(localStorage.getItem(usernameIn.value)){
+    }
+    else if(localStorage.getItem(usernameIn.value)){
         var span = "<span style='color: red;'>Username already Taken!</span>"
         acceptForm = acceptForm && false;
     }

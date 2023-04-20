@@ -77,7 +77,7 @@ function drawSpaceship(){
     contextSpace.moveTo(spaceship.x, spaceship - 15);
     contextSpace.arc(spaceship.x, spaceship - 12, 30, Math.PI, Math.PI*2);
     contextSpace.fillStyle = "#808080";
-    contextSpace.fill()
+    contextSpace.fill();
     contextSpace.stroke();
 }
 
