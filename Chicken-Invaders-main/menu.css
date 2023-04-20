@@ -19,16 +19,18 @@
         0 0 92px #0fa,
         0 0 102px #0fa,
         0 0 151px #0fa;
+
+    --text-shadow1: 
+    0 0 7px #fff,
+    0 0 10px #fff,
+    0 0 21px #fff,
+    0 0 42px rgb(207, 203, 216),
+    0 0 82px rgb(114, 112, 121),
+    0 0 92px rgb(85, 44, 180),
+    0 0 102px rgb(109, 108, 116),
+    0 0 151px rgb(194, 187, 187);
 }
 
-@keyframes background-pan {
-    from {
-        background-position: 0% center;
-    }
-    to {
-        background-position: 200% center;
-    }
-}
 
 body {
     height: 96vh;
@@ -70,7 +72,8 @@ body {
     z-index: 1;
     
     background-color: var(--main-theme-color);
-    color: white;
+    color: azure;
+    font-weight: bold;
 }
 
 
@@ -138,21 +141,16 @@ label {
 }
 
 #main-menu {
-    width: 100%;
+    width: clamp(40px, 40%, 100px);
     height: 100%;
     border: solid red 1px;
     display: grid;
-    place-items: center;
-
+    
+    grid-template-rows: repeat(1fr, 6);
 }
 
 #content {
-    width: clamp(300px, 50%, 600px);
-}
-
-#main-menu > * {
-    width: 100%;
-
+    width: clamp(150px, 50%, 600px);
 }
 
 
@@ -170,7 +168,6 @@ label {
 }
 
 .card {
-    height: 33%;
     width: 100%;
     box-shadow: var(--shadow-card);
     transition: 350ms ease;
@@ -180,7 +177,7 @@ label {
     font-size: 30px;
     border-radius: 10px;
     
-    color: white;
+    color: azure;
 
     min-width: 12rem;
     min-height: min-content;
@@ -273,8 +270,7 @@ label {
 #configure{
     display: grid;
 
-    grid-template-rows: 1fr 2fr 1fr;
-    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
 
     color: white;
     text-shadow: var(--text-shadow);
@@ -286,6 +282,7 @@ label {
 #configure * {
     position: relative;
     color:white;
+    padding: 20px;
 }
 
 #footer {

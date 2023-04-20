@@ -14,7 +14,8 @@ function setFireButton(key){
 }
 
 function setSpaceship(){
-    spaceship = {x: space.width / 2, y: space.height - spaceship_height*3}
+    var xPosition = space.width/4 + Math.random()*2*space.width/4
+    spaceship = {x: xPosition, y: space.height - spaceship_height*4.5}
 }
 
 function setSpaceshipColor(color){
@@ -98,7 +99,7 @@ function updateSpaceshipPositions(){
 
     if(upPressed && spaceship.y > (space.height * 0.6) + spaceship_height){
         spaceship.y = spaceship.y - spaceship_speed;
-    }else if(downPressed && spaceship.y < space.height - spaceship_height){
+    }else if(downPressed && spaceship.y < space.height - spaceship_height*3){
         spaceship.y = spaceship.y + spaceship_speed;
     }
 }

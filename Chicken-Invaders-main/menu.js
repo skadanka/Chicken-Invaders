@@ -43,6 +43,7 @@ const Connect = () => {
     msg.innerHTML = "";
     currentUser = account;
     hello.innerText = `Hello, ${username.value}`;
+    scoreboard = [];
     configureToggle();
     loginToggle();
 }
@@ -238,11 +239,29 @@ function scoreboardToggle(){
 }
 
 
+function welcomeToggle(){
+    var welcome = document.getElementById("welcome-screen");
+    if (welcome.style.display === "none") {
+        welcome.style.display = "";
+    } else {
+        welcome.style.display = "none";
+    }
+}
+
+function containerToggle(){
+    var container = document.getElementById("container");
+    if (container.style.display === "none") {
+        container.style.display = "";
+    } else {
+        container.style.display = "none";
+    }
+}
+
 
 function configureToggle(){
     var about = document.getElementById("configure");
     if (about.style.display === "none") {
-        about.style.display = "block";
+        about.style.display = "";
 
         var keyConfig = document.getElementById("fire-input")
         keyConfig.addEventListener(

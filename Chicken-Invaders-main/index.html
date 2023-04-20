@@ -13,7 +13,7 @@
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     
     
-<title>Chicken Invaders</title>
+<title>Something Invaders</title>
 </head>
 <body>
     <canvas id="space"></canvas>
@@ -28,8 +28,27 @@
     <audio id = "music" >
         <source id="music-source" src = "space-120280.mp3" type = "audio/mp3" ></audio>
 
-    <div id="container">
-        
+
+    <div id="welcome-screen" style="display:grid; grid-template-rows: auto auto auto; place-items: start center; z-index: 2; width: 100%; height: 100%;">
+        <h1 id="title-ci" >
+            <span class="magic">
+                <span class="magic-text">
+                    <img src="icons8-space-64.png"> Something<br>&nbsp&nbsp &nbsp Invaders
+                </span>
+            </span>
+            
+        </h1>
+        <div style="color:azure;z-index: 2; text-shadow: var(--text-shadow1); " >
+            <h2>Eden Abuhatzeira 315811133</h2>
+            <h2>&nbsp Shelley Kerpel 315401885</h2>
+        </div>
+        <div>
+            <input type="button" style="position: relative; font-size: 20px; height: fit-content" class="card" value="login"  onclick="containerToggle();loginToggle();welcomeToggle()">
+            <input type="button" style="position: relative; font-size: 20px; height: fit-content" class="card" value="Register"  onclick="containerToggle();signInToggle();welcomeToggle();">
+        </div>
+    </div>
+
+    <div id="container"  style="display: none">  
     <div id="header">
         <!-- <div class="header-section">Logo</div>
         <div class="header-section">Something Invaders</div>
@@ -43,7 +62,7 @@
     </div>
 
     <div id="content">
-    <div id="login-screen">
+    <div id="login-screen" style="display: none">
         <h1 style="color:white; top: -55%; left: 35%;">Login</h1>
         <form id="login">
             <label id="login-msg"></label>
@@ -57,10 +76,11 @@
     </div>
 
     <div id="configure" style="display: none;">
-
+        <div>
          <label for="fire-input">Fire Key</label>
             <input type="text" id="fire-input"  class="input-space" id="fireButton-input"  value="Space" >
-
+        </div>
+        <div>
             <label for="timer-setup">Round Time</label>
             <select class="card" style="width:max-content; height: max-content;" id="timer-setup">
                 <option>2:00</option>
@@ -71,6 +91,8 @@
                 <option>4:30</option>
                 <option>5:00</option>
             </select>
+        </div>
+        <div>
         <label for="spaceship-color">Spaceship color</label>
             <select class="card" style="width:max-content; height: max-content;" id="spaceship-color">
                 <option style="background-color: orange;">Orange</option>
@@ -79,7 +101,8 @@
                 <option style="background-color: yellow;">Yellow</option>
                 <option style="background-color: red;;">Red</option>
             </select>
-        <input type="button" class="card" onclick="configure()" value="Apply selection" style="font-size:20px">
+        </div>
+        <input type="button" class="card" onclick="configure()" value="Apply selection" style="font-size: 30px; height:fit-content;">
     </div>
     
     <div id="sign-in-screen" style="display: none;">
@@ -108,7 +131,7 @@
         <h1 id="title-ci">
             <span class="magic">
                 <span class="magic-text">
-                    Chicken<br>&nbsp &nbsp &nbsp Invaders
+                    Something<br>&nbsp &nbsp &nbsp &nbsp Invaders
                 </span>
             </span>
             </h1>
@@ -161,7 +184,7 @@
     </div>
 
     <div id="endGame" class="modal" style="display: none;">
-        <div id="endGame-content" class="modal-content">Hello world</div>
+        <div id="endGame-content" class="modal-content" style="width: fit-content">Hello world</div>
     </div>
 
 </body>
